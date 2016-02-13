@@ -310,6 +310,8 @@
                 if (!!err) {
                     throw err;
                 }
+
+                npm.commands.dedupe();
             });
         },
 
