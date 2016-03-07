@@ -1,0 +1,10 @@
+{
+  "jslintConfig": {
+    "bitwise": true,
+    "browser": true,
+    "devel": true,
+    "es6": true,
+    "fudge": true,
+    "node": true
+  }
+}

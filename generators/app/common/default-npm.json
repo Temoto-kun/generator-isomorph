@@ -1,0 +1,14 @@
+{
+  "save": [
+    "express",
+    "body-parser",
+    "cookie-parser",
+    "debug",
+    "morgan",
+    "serve-favicon",
+    "scut",
+    "node-sass",
+    "webpack"
+  ],
+  "saveDev": []
+}

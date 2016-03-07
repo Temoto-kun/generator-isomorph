@@ -1,0 +1,11 @@
+{
+  "jscsConfig": {
+    "preset": "crockford",
+    "fileExtensions": [
+      ".js",
+      ".jsx"
+    ],
+    "esnext": true,
+    "maxErrors": null
+  }
+}

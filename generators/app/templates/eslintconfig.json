@@ -1,0 +1,28 @@
+{
+  "eslintConfig": {
+    "root": true,
+    "parserOptions": {
+      "ecmaVersion": 6
+    },
+    "env": {
+      "node": true,
+      "browser": true,
+      "commonjs": true,
+      "shared-node-browser": true,
+      "es6": true
+    },
+    "rules": {
+      "quotes": [2, "single", "avoid-escape"],
+      "no-console": 0,
+      "valid-jsdoc": 1,
+      "callback-return": 2,
+      "global-require": 2,
+      "no-sync": 1,
+      "no-path-concat": 2,
+      "handle-callback-err": 1,
+      "wrap-regex": 1,
+      "require-jsdoc": 1,
+      "sort-vars": 1
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "jshintConfig": {
+    "bitwise": true,
+    "curly": true,
+    "eqeqeq": true,
+    "esversion": 6,
+    "funcscope": true,
+    "futurehostile": true,
+    "notypeof": true,
+    "shadow": "outer",
+    "undef": true,
+    "unused": true,
+    "browser": true,
+    "devel": true,
+    "node": true
+  }
+}
