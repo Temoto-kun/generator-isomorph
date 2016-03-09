@@ -1,60 +1,35 @@
 #!/usr/bin/env node
 
 (function () {
-    var app, debug, http, port, server;
+    var app, debug, http, port, server, process;
 
-    /**
-     * Module dependencies.
-     */
-
-    app = require('../app');
+    process = require('process');
+    app = require('./../app');
     debug = require('debug')('<%= name %>:server');
     http = require('http');
-
-    /**
-     * Get port from environment and store in Express.
-     */
 
     port = normalizePort(process.env.PORT || '3000');
     app.set('port', port);
 
-    /**
-     * Create HTTP server.
-     */
-
     server = http.createServer(app);
-
-    /**
-     * Listen on provided port, on all network interfaces.
-     */
 
     server.listen(port);
     server.on('error', onError);
     server.on('listening', onListening);
 
-    /**
-     * Normalize a port into a number, string, or false.
-     */
-
     function normalizePort(val) {
         var port = parseInt(val, 10);
 
         if (isNaN(port)) {
-            // named pipe
             return val;
         }
 
         if (port >= 0) {
-            // port number
             return port;
         }
 
         return false;
     }
-
-    /**
-     * Event listener for HTTP server "error" event.
-     */
 
     function onError(error) {
         var bind;
@@ -63,11 +38,8 @@
             throw error;
         }
 
-        bind = typeof port === 'string'
-                ? 'Pipe ' + port
-                : 'Port ' + port;
+        bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
-        // handle specific listen errors with friendly messages
         switch (error.code) {
             case 'EACCES':
                 console.error(bind + ' requires elevated privileges');
@@ -82,17 +54,11 @@
         }
     }
 
-    /**
-     * Event listener for HTTP server "listening" event.
-     */
-
     function onListening() {
         var addr, bind;
 
         addr = server.address();
-        bind = typeof addr === 'string'
-                ? 'pipe ' + addr
-                : 'port ' + addr.port;
+        bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
         debug('Listening on ' + bind);
     }
 })();

@@ -5,7 +5,7 @@
         answers = self.config.get('answers');
 
         self.fs.copy(
-            __dirname + '/../../templates/express/src/views/' + (answers.indented ? 'jade' : 'ejs') + '/*.*',
+            __dirname + '/../../templates/express/src/views/*.' + (answers.indented ? 'jade' : 'ejs'),
             'src/views'
         );
 
