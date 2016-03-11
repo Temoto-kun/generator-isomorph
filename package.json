@@ -21,30 +21,16 @@
     "url": "https://github.com/Temoto-kun/generator-isomorph/issues"
   },
   "homepage": "https://github.com/Temoto-kun/generator-isomorph#readme",
-  "jscsConfig": {
-    "preset": "crockford",
-    "fileExtensions": [
-      ".js",
-      ".jsx"
-    ],
-    "esnext": true,
-    "disallowTrailingWhitespace": false,
-    "maxErrors": null
-  },
   "eslintConfig": {
     "root": true,
-    "ecmaFeatures": {
-      "jsx": true
-    },
     "env": {
-      "node": true
+      "node": true,
+      "browser": true
     },
-    "extends": "react",
     "rules": {
       "no-console": 0,
       "valid-jsdoc": 1,
       "callback-return": 2,
-      "global-require": 2,
       "no-sync": 1,
       "no-path-concat": 2,
       "handle-callback-err": 1,

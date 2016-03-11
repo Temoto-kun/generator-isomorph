@@ -1,5 +1,3 @@
-// jscs:disable requireDotNotation
-
 (function () {
     var Inquirer;
 
