@@ -1,7 +1,11 @@
 (function () {
+    var path;
+
+    path = require('path');
+
     module.exports = function (self) {
         self.fs.copyTpl(
-            __dirname + '/../../templates/editorconfig.ejs',
+            path.resolve(__dirname, '../../templates/editorconfig.ejs'),
             self.destinationPath('.editorconfig'),
             {
                 eol: 'lf',

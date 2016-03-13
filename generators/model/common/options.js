@@ -3,9 +3,5 @@
 
     Inquirer = require('inquirer');
 
-    module.exports = [
-        {
-            name: ''
-        }
-    ];
+    module.exports = [];
 })();

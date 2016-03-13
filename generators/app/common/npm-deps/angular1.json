@@ -1,0 +1,25 @@
+{
+  "main": {
+    "save": [
+      "angular",
+      "angular-aria",
+      "angular-ui-router"
+    ]
+  },
+  "plugins": {
+    "ngSanitize": { "save": "angular-sanitize" },
+    "ngCookies":  { "save": "angular-cookies" },
+    "ngAnimate":  { "save": "angular-animate" },
+    "ngMessages": { "save": "angular-messages" },
+    "a8mFilters": { "save": "angular-filters" },
+    "ngI18N": { "save": "angular-i18n" },
+    "angularTranslate": { "save": "angular-translate" },
+    "ngResource": { "save": "angular-resource" },
+    "restangular": { "save": "restangular" },
+    "ngStorage": { "save": "ngstorage" },
+    "uiBootstrap": { "save": ["bootstrap-sass", "angular-bootstrap"] },
+    "foundation": { "save": ["foundation", "angular-mm-foundation"] },
+    "angularMaterial": { "save": "angular-material" },
+    "angularfire": { "save": ["angularfire", "firebase"] }
+  }
+}

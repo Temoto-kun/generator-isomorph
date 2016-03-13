@@ -1,9 +1,15 @@
 (function () {
-    var packageJson, answers, requireDir;
+    var answers, packageJson, requireDir;
 
     requireDir = require('require-dir');
 
-    function initializePackageJson(self, answers) {
+    /**
+     * Initializes the contents of the package.json file.
+     *
+     * @param self {Object} The generator context.
+     * @returns {undefined}
+     */
+    function initializePackageJson(self) {
         packageJson = self.fs.readJSON(self.destinationPath('package.json'), {});
 
         packageJson.title = packageJson.name || answers.name;
@@ -16,11 +22,18 @@
         packageJson.private = true;
     }
 
-    function runSubtasks(subtasks, answers) {
+    /**
+     * Run the subtasks.
+     *
+     * @param self {Object} The generator context.
+     * @param subtasks {Object} The subtasks to run.
+     * @returns {undefined}
+     */
+    function runSubtasks(self, subtasks) {
         var packageJsonPart;
 
         Object.keys(subtasks).forEach(function (subtaskName) {
-            packageJsonPart = subtasks[subtaskName](answers);
+            packageJsonPart = subtasks[subtaskName](self, answers);
 
             Object.keys(packageJsonPart).forEach(function (partName) {
                 packageJson[partName] = packageJson[partName] || packageJsonPart[partName];
@@ -28,11 +41,11 @@
         });
     }
 
-    module.exports = function (self) {
+    module.exports = function writePackageJson(self) {
         answers = self.config.get('answers');
 
         initializePackageJson(self, answers);
-        runSubtasks(requireDir('./package-json'), answers);
+        runSubtasks(self, requireDir('./package-json'));
 
         self.fs.writeJSON(self.destinationPath('package.json'), packageJson);
     };

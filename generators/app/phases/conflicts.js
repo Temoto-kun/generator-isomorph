@@ -1,5 +1,5 @@
 (function () {
-    module.exports = function (self) {
+    module.exports = function conflicts(self) {
         // TODO resolve conflicts
     };
 })();

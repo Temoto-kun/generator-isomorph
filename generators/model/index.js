@@ -1,11 +1,10 @@
 (function () {
-    var Generators;
+    var Generators, ModelGenerator, self;
 
     Generators = require('yeoman-generator');
 
-    module.exports = Generators.Base.extend({
-        constructor: function () {
-            var self;
+    module.exports = ModelGenerator = Generators.Base.extend({
+        constructor: function ModelGenerator() {
             self = this;
 
             Generators.Base.apply(self, arguments);
@@ -17,26 +16,12 @@
                 });
             });
         },
-        initializing: function () {
-            require('./phases/initializing')(this);
-        },
-        prompting: function () {
-            require('./phases/prompting')(this);
-        },
-        configuring: function () {
-            require('./phases/configuring')(this);
-        },
-        writing: function () {
-            require('./phases/writing')(this);
-        },
-        conflicts: function () {
-            require('./phases/conflicts')(this);
-        },
-        install: function () {
-            require('./phases/install')(this);
-        },
-        end: function () {
-            require('./phases/end')(this);
-        }
+        initializing: function () { require('./phases/initializing')(self); },
+        prompting:    function () { require('./phases/prompting')(self);    },
+        configuring:  function () { require('./phases/configuring')(self);  },
+        writing:      function () { require('./phases/writing')(self);      },
+        conflicts:    function () { require('./phases/conflicts')(self);    },
+        install:      function () { require('./phases/install')(self);      },
+        end:          function () { require('./phases/end')(self);          }
     });
 })();

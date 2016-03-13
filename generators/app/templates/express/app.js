@@ -1,5 +1,5 @@
 (function () {
-    var express, path, favicon, logger, cookieParser, bodyParser, app, routes;
+    var app, bodyParser, cookieParser, express, favicon, logger, path, routes;
 
     express = require('express');
     path = require('path');
@@ -9,8 +9,8 @@
     bodyParser = require('body-parser');
 
     routes = {
-        views: require('./src/components/routes/views'),
-        api: require('./src/components/routes/api')
+        views: require('./src/components/router/views/server'),
+        api: require('./src/components/router/api')
     };
     app = express();
 

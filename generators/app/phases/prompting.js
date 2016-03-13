@@ -3,7 +3,9 @@
 
     chalk = require('chalk');
 
-    module.exports = function (self) {
+    module.exports = function prompting(self) {
+        console.log(self.sourceRoot());
+
         done = self.async();
 
         prompts = [];
@@ -14,7 +16,7 @@
                 message: 'Type in your project name. ' + chalk.red('(Required)'),
                 type: 'input',
                 required: true,
-                default: self.appname,
+                'default': self.appname,
                 validate: function (input) {
                     return (input.trim().length > 0 || 'Please enter your project name.');
                 }

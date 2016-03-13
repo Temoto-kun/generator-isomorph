@@ -1,7 +1,13 @@
 (function () {
-    var Inquirer;
+    var Inquirer, npmDeps;
 
     Inquirer = require('inquirer');
+
+    npmDeps = {
+        angular1: require('./npm-deps/angular1.json'),
+        react: require('./npm-deps/react.json'),
+        polymer: require('./npm-deps/polymer.json')
+    };
 
     module.exports = [
         {
@@ -21,29 +27,14 @@
                     name: 'React + JSX',
                     value: {
                         id: 'react',
-                        npm: {
-                            save: [
-                                'react',
-                                'react-dom',
-                                'react-router',
-                                'babel',
-                                'babel-preset-es2015',
-                                'babel-preset-react'
-                            ]
-                        }
+                        npm: npmDeps.react.main
                     }
                 },
                 {
                     name: 'Angular 1.x',
                     value: {
                         id: 'angular1',
-                        npm: {
-                            save: [
-                                'angular',
-                                'angular-aria',
-                                'angular-ui-router'
-                            ]
-                        },
+                        npm: npmDeps.angular1.main,
                         ng: [
                             'ngAria',
                             'ui.router'
@@ -54,11 +45,7 @@
                     name: 'Polymer',
                     value: {
                         id: 'polymer',
-                        npm: {
-                            save: [
-                                'Polymer'
-                            ]
-                        }
+                        npm: npmDeps.polymer.main
                     }
                 }
             ]
@@ -72,45 +59,35 @@
                 {
                     name: 'ngSanitize',
                     value: {
-                        npm: {
-                            save: 'angular-sanitize'
-                        },
+                        npm: npmDeps.angular1.plugins.ngSanitize,
                         ng: 'ngSanitize'
                     }
                 },
                 {
                     name: 'ngCookies',
                     value: {
-                        npm: {
-                            save: 'angular-cookies'
-                        },
+                        npm: npmDeps.angular1.plugins.ngCookies,
                         ng: 'ngCookies'
                     }
                 },
                 {
                     name: 'ngAnimate',
                     value: {
-                        npm: {
-                            save: 'angular-animate'
-                        },
+                        npm: npmDeps.angular1.plugins.ngAnimate,
                         ng: 'ngAnimate'
                     }
                 },
                 {
                     name: 'ngMessages',
                     value: {
-                        npm: {
-                            save: 'angular-messages'
-                        },
+                        npm: npmDeps.angular1.plugins.ngMessages,
                         ng: 'ngMessages'
                     }
                 },
                 {
                     name: 'A8M Filters',
                     value: {
-                        npm: {
-                            save: 'angular-filters'
-                        },
+                        npm: npmDeps.angular1.plugins.a8mFilters,
                         ng: 'a8m.filter'
                     }
                 }
@@ -128,18 +105,14 @@
                 {
                     name: 'ngI18N',
                     value: {
-                        npm: {
-                            save: 'angular-i18n'
-                        },
+                        npm: npmDeps.angular1.plugins.ngI18N,
                         ng: 'ngI18n'
                     }
                 },
                 {
                     name: 'Angular Translate',
                     value: {
-                        npm: {
-                            save: 'angular-translate'
-                        },
+                        npm: npmDeps.angular1.plugins.angularTranslate,
                         ng: 'pascalprecht.translate'
                     }
                 },
@@ -162,18 +135,14 @@
                 {
                     name: 'ngResource',
                     value: {
-                        npm: {
-                            save: 'angular-resource'
-                        },
+                        npm: npmDeps.angular1.plugins.ngResource,
                         ng: 'ngResource'
                     }
                 },
                 {
                     name: 'Restangular',
                     value: {
-                        npm: {
-                            save: 'restangular'
-                        },
+                        npm: npmDeps.angular1.plugins.restangular,
                         ng: 'Restangular'
                     }
                 },
@@ -194,6 +163,7 @@
             message: 'Which database would you like to use?',
             choices: [
                 {
+                    id: 'sqlite',
                     name: 'SQLite',
                     value: {
                         npm: {
@@ -202,6 +172,7 @@
                     }
                 },
                 {
+                    id: 'firebase',
                     name: 'Firebase',
                     value: {
                         npm: {
@@ -210,6 +181,7 @@
                     }
                 },
                 {
+                    id: 'mysql',
                     name: 'MySQL',
                     value: {
                         npm: {
@@ -218,6 +190,7 @@
                     }
                 },
                 {
+                    id: 'indexeddb',
                     name: 'IndexedDB',
                     value: {
                         npm: {
@@ -226,6 +199,7 @@
                     }
                 },
                 {
+                    id: 'localstorage',
                     name: 'LocalStorage',
                     value: {
                         npm: {
@@ -250,6 +224,7 @@
             message: 'Which database would you like to use?',
             choices: [
                 {
+                    id: 'sqlite',
                     name: 'SQLite',
                     value: {
                         npm: {
@@ -258,11 +233,13 @@
                     }
                 },
                 {
+                    id: 'firebase',
                     name: 'Firebase',
                     value: {
                         npm: {
-                            save: 'firebase'
-                        }
+                            save: npmDeps.angular1.plugins.angularfire
+                        },
+                        ng: 'firebase'
                     }
                 },
                 {
@@ -284,9 +261,7 @@
                 {
                     name: 'LocalStorage (using ngStorage)',
                     value: {
-                        npm: {
-                            save: 'ngstorage'
-                        },
+                        npm: npmDeps.angular1.plugins.ngStorage,
                         ng: 'ngStorage'
                     }
                 },
@@ -349,27 +324,21 @@
                 {
                     name: 'Bootstrap (with Angular UI Bootstrap)',
                     value: {
-                        npm: {
-                            save: ['bootstrap-sass', 'angular-bootstrap']
-                        },
+                        npm: npmDeps.angular1.plugins.uiBootstrap,
                         ng: 'ui.bootstrap'
                     }
                 },
                 {
                     name: 'Foundation (with Angular Foundation)',
                     value: {
-                        npm: {
-                            save: ['foundation', 'angular-mm-foundation']
-                        },
+                        npm: npmDeps.angular1.plugins.foundation,
                         ng: 'mm.foundation'
                     }
                 },
                 {
                     name: 'Angular Material',
                     value: {
-                        npm: {
-                            save: 'angular-material'
-                        },
+                        npm: npmDeps.angular1.plugins.angularMaterial,
                         ng: 'ngMaterial'
                     }
                 },

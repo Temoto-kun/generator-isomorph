@@ -1,11 +1,13 @@
 (function () {
-    var answers;
+    var answers, path;
+
+    path = require('path');
 
     module.exports = function (self) {
         answers = self.config.get('answers');
 
         self.fs.copyTpl(
-            __dirname + '/../../templates/readme.ejs',
+            path.resolve(__dirname, '../../templates/readme.ejs'),
             self.destinationPath('README'),
             {
                 name: answers.name,

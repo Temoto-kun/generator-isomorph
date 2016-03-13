@@ -1,5 +1,5 @@
 (function () {
-    var modules, defaultNpm;
+    var answers, defaultNpm, modules;
 
     defaultNpm = require('./../common/default-npm');
 
@@ -8,12 +8,20 @@
         devDependencies: []
     };
 
+    /**
+     * Determine the default dependencies.
+     * @returns {undefined}
+     */
     function determineDefaultDeps() {
         modules.dependencies = modules.dependencies.concat(defaultNpm.save);
         modules.devDependencies = modules.devDependencies.concat(defaultNpm.saveDev);
     }
 
-    function determinePreprocessorDeps(answers) {
+    /**
+     * Determine the preprocessor dependencies.
+     * @returns {undefined}
+     */
+    function determinePreprocessorDeps() {
         modules.dependencies.push(answers.indented ? 'jade' : 'ejs');
 
         if (answers.indented) {
@@ -21,7 +29,12 @@
         }
     }
 
-    function determineFeatureDeps(answers, answerKey) {
+    /**
+     * Determine the feature dependencies.
+     * @param answerKey The answer key from the prompts.
+     * @returns {undefined}
+     */
+    function determineFeatureDeps(answerKey) {
         if (!answers[answerKey] || typeof answers[answerKey] !== 'object') {
             return;
         }
@@ -51,11 +64,12 @@
         modules.devDependencies = modules.devDependencies.concat(answers[answerKey].npm.saveDev || []);
     }
 
-    module.exports = function (answers) {
+    module.exports = function (theAnswers) {
+        answers = theAnswers;
         determineDefaultDeps();
-        determinePreprocessorDeps(answers);
+        determinePreprocessorDeps();
         Object.keys(answers).forEach(function (answerKey) {
-            determineFeatureDeps(answers, answerKey);
+            determineFeatureDeps(answerKey);
         });
         return modules;
     };
