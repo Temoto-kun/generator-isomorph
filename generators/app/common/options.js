@@ -163,47 +163,56 @@
             message: 'Which database would you like to use?',
             choices: [
                 {
-                    id: 'sqlite',
                     name: 'SQLite',
                     value: {
+                        id: 'sqlite',
                         npm: {
                             save: 'sqlite3'
                         }
                     }
                 },
                 {
-                    id: 'firebase',
                     name: 'Firebase',
                     value: {
+                        id: 'firebase',
                         npm: {
                             save: 'firebase'
                         }
                     }
                 },
                 {
-                    id: 'mysql',
                     name: 'MySQL',
                     value: {
+                        id: 'mysql',
                         npm: {
                             save: 'mysql'
                         }
                     }
                 },
                 {
-                    id: 'indexeddb',
                     name: 'IndexedDB',
                     value: {
+                        id: 'indexeddb',
                         npm: {
                             save: 'indexed-db'
                         }
                     }
                 },
                 {
-                    id: 'localstorage',
                     name: 'LocalStorage',
                     value: {
+                        id: 'localstorage',
                         npm: {
                             save: 'localstorage'
+                        }
+                    }
+                },
+                {
+                    name: 'NoSQL',
+                    value: {
+                        id: 'nosql',
+                        npm: {
+                            save: 'nosql'
                         }
                     }
                 },
@@ -224,18 +233,18 @@
             message: 'Which database would you like to use?',
             choices: [
                 {
-                    id: 'sqlite',
                     name: 'SQLite',
                     value: {
+                        id: 'sqlite',
                         npm: {
                             save: 'sqlite3'
                         }
                     }
                 },
                 {
-                    id: 'firebase',
                     name: 'Firebase',
                     value: {
+                        id: 'firebase',
                         npm: {
                             save: npmDeps.angular1.plugins.angularfire
                         },
@@ -245,6 +254,7 @@
                 {
                     name: 'MySQL',
                     value: {
+                        id: 'mysql',
                         npm: {
                             save: 'mysql'
                         }
@@ -253,6 +263,7 @@
                 {
                     name: 'IndexedDB',
                     value: {
+                        id: 'indexeddb',
                         npm: {
                             save: 'indexed-db'
                         }
@@ -261,8 +272,18 @@
                 {
                     name: 'LocalStorage (using ngStorage)',
                     value: {
+                        id: 'localstorage',
                         npm: npmDeps.angular1.plugins.ngStorage,
                         ng: 'ngStorage'
+                    }
+                },
+                {
+                    name: 'NoSQL',
+                    value: {
+                        id: 'nosql',
+                        npm: {
+                            save: 'nosql'
+                        }
                     }
                 },
                 new Inquirer.Separator(),

@@ -10,6 +10,7 @@
 
     /**
      * Determine the default dependencies.
+     *
      * @returns {undefined}
      */
     function determineDefaultDeps() {
@@ -19,6 +20,7 @@
 
     /**
      * Determine the preprocessor dependencies.
+     *
      * @returns {undefined}
      */
     function determinePreprocessorDeps() {
@@ -31,7 +33,8 @@
 
     /**
      * Determine the feature dependencies.
-     * @param answerKey The answer key from the prompts.
+     *
+     * @param answerKey {Object} The answer key from the prompts.
      * @returns {undefined}
      */
     function determineFeatureDeps(answerKey) {
@@ -60,17 +63,38 @@
             answers[answerKey].npm.saveDev = [answers[answerKey].npm.saveDev];
         }
 
-        modules.dependencies = modules.dependencies.concat(answers[answerKey].npm.save || []);
-        modules.devDependencies = modules.devDependencies.concat(answers[answerKey].npm.saveDev || []);
+        modules.dependencies = modules.dependencies
+            .concat(answers[answerKey].npm.save || []);
+
+        modules.devDependencies = modules.devDependencies
+            .concat(answers[answerKey].npm.saveDev || []);
     }
 
-    module.exports = function (theAnswers) {
+    /**
+     * Compact the dependency arrays.
+     *
+     * @returns {undefined}
+     */
+    function compactDeps() {
+        modules.dependencies = modules.dependencies
+            .filter(function (item) {
+                return !!item;
+            });
+
+        modules.devDependencies = modules.devDependencies
+            .filter(function (item) {
+                return !!item;
+            });
+    }
+
+    module.exports = function determineNodeModules(theAnswers) {
         answers = theAnswers;
         determineDefaultDeps();
         determinePreprocessorDeps();
         Object.keys(answers).forEach(function (answerKey) {
             determineFeatureDeps(answerKey);
         });
+        compactDeps();
         return modules;
     };
 })();

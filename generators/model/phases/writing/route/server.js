@@ -1,54 +1,75 @@
 (function () {
-    function composeServerRoutes(self, cb) {
-        var beautify, fs, path, routeDir, routeSrc, routes;
+    function routeGetCode(req, res, next) {
+        res.json({ status: 'ok' });
+    }
+
+    function routePostCode(req, res, next) {
+        res.json({ status: 'ok' });
+    }
+
+    function generateRouteCode(route) {
+        return [
+            '\n\n' + "router.get('" + route.url + "', " + routeGetCode + ");",
+            '\n' + "router.post('" + route.url + "', " + routePostCode + ");"
+        ].join('\n');
+    }
+
+    function generateLoadDatabaseCode(self) {
+        var answers, routeSrc;
+
+        answers = self.config.get('answers');
+
+        if (!answers) {
+            return '';
+        }
+
+        routeSrc = "\ndb = require('" + answers.db.id + "');";
+
+        return routeSrc;
+    }
+
+    function generateRoutingCode(self) {
+        var beautify, newRoute, routeSrc, routes;
 
         beautify = require('js-beautify');
-        fs = require('fs');
-        path = require('path');
 
-        routeDir = self.destinationPath('src/components/router/routes');
+        newRoute = self.config.get('last-model');
 
         routes = self.config.get('routes') || [];
 
         routeSrc = [
             '(function () {',
-            'var express, router;',
+            'var express, router, db;',
             "express = require('express');",
             'router = express.Router();\n'
         ].join('\n');
 
-        routes.forEach(function (route) {
-            routeSrc += [
-                '\n' + "router.get('" + route.url + "', function (req, res, next) {",
-                "res.json({ status: 'ok' });", // TODO get data from database
-                "});"
-            ].join('\n');
+        routeSrc += generateLoadDatabaseCode(self);
 
-            routeSrc += [
-                '\n' + "router.post('" + route.url + "', function (req, res, next) {",
-                "res.json({ status: 'ok' });", // TODO get data from database
-                "});"
-            ].join('\n');
+        routes.push({
+            name: newRoute.name,
+            url: '/' + newRoute.name.toLowerCase().replace(/\s+/g, '-')
+        });
+
+        routes.forEach(function (route) {
+            routeSrc += generateRouteCode(route);
         });
 
         routeSrc += '\n})();';
 
-        cb(null, beautify(routeSrc));
+        self.config.set('routes', routes);
+
+        return beautify(routeSrc);
     }
 
-    module.exports = function writeServerRoutes(self, cb) {
-        composeServerRoutes(self, function (err, res) {
-            if (!!err) {
-                cb(err);
-                return;
-            }
+    function composeServerRoutes(self) {
+        self.fs.write(
+            self.destinationPath('src/components/router/api.js'),
+            generateRoutingCode(self)
+        );
+    }
 
-            self.fs.write(
-                self.destinationPath('src/components/router/api.js'),
-                res
-            );
-
-            cb(null);
-        });
+    module.exports = function writeServerRoutes(self) {
+        composeServerRoutes(self);
     };
 })();

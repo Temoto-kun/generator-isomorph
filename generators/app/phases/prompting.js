@@ -4,8 +4,6 @@
     chalk = require('chalk');
 
     module.exports = function prompting(self) {
-        console.log(self.sourceRoot());
-
         done = self.async();
 
         prompts = [];
@@ -59,16 +57,11 @@
         prompts = prompts.concat(require('./../common/options'));
 
         self.prompt(prompts, function (answers) {
-            var nodeModules;
-
             if (self.arguments.length > 0) {
                 answers.name = self.arguments.shift();
             }
 
-            nodeModules = require('./../common/npm-deps')(answers);
-
             self.config.set('answers', answers);
-            self.config.set('nodeModules', nodeModules);
 
             done();
         });

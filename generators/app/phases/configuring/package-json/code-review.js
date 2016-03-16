@@ -9,16 +9,16 @@
         }
         switch (answers['code-review'].id) {
             case 'jscs':
-                return require(path.join(self.sourceRoot(), 'jscsconfig.json'));
+                return require(path.join(self.sourceRoot(), 'code-review/jscs.template.json'));
             case 'jslint':
-                return require(path.join(self.sourceRoot(), 'jslintconfig.json'));
+                return require(path.join(self.sourceRoot(), 'code-review/jslint.template.json'));
             case 'eslint':
                 if (answers.js.id === 'react') {
-                    return require(path.join(self.sourceRoot(), 'eslintconfig.react.json'));
+                    return require(path.join(self.sourceRoot(), 'code-review/eslint/react/eslint.template.json'));
                 }
-                return require(path.join(self.sourceRoot(), 'eslintconfig.json'));
+                return require(path.join(self.sourceRoot(), 'code-review/eslint/eslint.template.json'));
             case 'jshint':
-                return require(path.join(self.sourceRoot(), 'jshintconfig.json'));
+                return require(path.join(self.sourceRoot(), 'code-review/jshint.template.json'));
         }
         return {};
     };
