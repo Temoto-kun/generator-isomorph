@@ -6,7 +6,7 @@
     /**
      * Initializes the contents of the package.json file.
      *
-     * @param self {Object} The generator context.
+     * @param {Object} self The generator context.
      * @returns {undefined}
      */
     function initializePackageJson(self) {
@@ -25,8 +25,8 @@
     /**
      * Run the subtasks.
      *
-     * @param self {Object} The generator context.
-     * @param subtasks {Object} The subtasks to run.
+     * @param {Object} self The generator context.
+     * @param {Object} subtasks The subtasks to run.
      * @returns {undefined}
      */
     function runSubtasks(self, subtasks) {

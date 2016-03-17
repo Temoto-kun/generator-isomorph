@@ -1,12 +1,8 @@
 (function () {
-    var chalk;
-
-    chalk = require('chalk');
-
     /**
      * Generates a string of n dash characters.
      *
-     * @param n {Number} an integer value.
+     * @param {Number} n  an integer value.
      * @returns {string} The string of dash characters.
      */
     function bar(n) {
@@ -24,6 +20,10 @@
     }
 
     module.exports = function initializing(self) {
+        var chalk;
+
+        chalk = require('chalk');
+
         self.log([
             '',
             ' ' + bar(78),

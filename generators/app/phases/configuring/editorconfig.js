@@ -1,6 +1,7 @@
 (function () {
     var options, path;
 
+    // Change these options if you want. Leave it intact (suggested).
     options = {
         eol: 'lf',
         indentSize: {

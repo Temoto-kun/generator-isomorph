@@ -5,9 +5,10 @@
 
     /**
      * Determines the database path for file-based database systems.
-     * @param self The generator context.
-     * @param answers The answers hash.
-     * @returns {String}
+     *
+     * @param {Object} self The generator context.
+     * @param {Object} answers The answers hash.
+     * @returns {String} The database path.
      */
     function determineDatabasePath(self, answers) {
         switch(answers.db.id) {
@@ -20,8 +21,9 @@
 
     /**
      * Checks if the database is file-based.
-     * @param answers The answers hash.
-     * @returns {boolean}
+     *
+     * @param {Object} answers The answers hash.
+     * @returns {boolean} Value indicating if database is file-based.
      */
     function isDatabaseFileBased(answers) {
         var fileBasedDb = ['sqlite', 'nosql'];

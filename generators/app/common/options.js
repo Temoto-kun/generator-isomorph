@@ -192,19 +192,13 @@
                 {
                     name: 'IndexedDB',
                     value: {
-                        id: 'indexeddb',
-                        npm: {
-                            save: 'indexed-db'
-                        }
+                        id: 'indexeddb'
                     }
                 },
                 {
                     name: 'LocalStorage',
                     value: {
-                        id: 'localstorage',
-                        npm: {
-                            save: 'localstorage'
-                        }
+                        id: 'localstorage'
                     }
                 },
                 {
@@ -263,10 +257,7 @@
                 {
                     name: 'IndexedDB',
                     value: {
-                        id: 'indexeddb',
-                        npm: {
-                            save: 'indexed-db'
-                        }
+                        id: 'indexeddb'
                     }
                 },
                 {

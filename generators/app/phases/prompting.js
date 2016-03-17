@@ -1,10 +1,15 @@
 (function () {
-    var chalk, done, prompts;
 
-    chalk = require('chalk');
+    /**
+     * Gets the prompts for the prompting phase.
+     *
+     * @param {Object} self The generator context.
+     * @returns {Array.<Object>} The prompts.
+     */
+    function getPrompts(self) {
+        var chalk, prompts;
 
-    module.exports = function prompting(self) {
-        done = self.async();
+        chalk = require('chalk');
 
         prompts = [];
 
@@ -54,9 +59,15 @@
             }
         ]);
 
-        prompts = prompts.concat(require('./../common/options'));
+        return prompts.concat(require('./../common/options'));
+    }
 
-        self.prompt(prompts, function (answers) {
+    module.exports = function prompting(self) {
+        var done;
+
+        done = self.async();
+
+        self.prompt(getPrompts(self), function (answers) {
             if (self.arguments.length > 0) {
                 answers.name = self.arguments.shift();
             }
