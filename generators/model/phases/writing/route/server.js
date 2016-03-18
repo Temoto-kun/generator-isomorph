@@ -1,79 +1,91 @@
 (function () {
-    var fns, requireDir;
+    var path;
 
-    requireDir = require('require-dir');
+    path = require('path');
 
-    fns = requireDir('./server');
+    /**
+     * Generates the code for the model.
+     *
+     * @param {Object} self The generator context.
+     * @param {Object} answers The answers hash.
+     * @param {Object} model The model.
+     * @returns {string} The JavaScript code for the model.
+     */
+    function generateModelCode(self, answers, model) {
+        var fns, requireDir, slug, url;
 
-    function generateRouteCode(self, route) {
-        var answers;
+        requireDir = require('require-dir');
+        slug = require('slug');
 
-        answers = self.config.get('answers');
+        fns = requireDir(path.join(self.sourceRoot(), 'route/server/fns'));
 
-        // TODO use template files and preprocess module instead of appending strings.
+        url = slug(model.name);
 
         return [
-            '\n\n' + "router.get('" + route.url + "', " + fns.get(answers) + ");",
-            '\n' + "router.post('" + route.url + "', " + fns.post(answers) + ");",
-            '\n' + "router.delete('" + route.url + "', " + fns.delete(answers) + ");"
+            '\n\n' + "router.get('" + url + "', " + fns.get(answers) + ");",
+            '\n' + "router.post('" + url + "', " + fns.post(answers) + ");",
+            '\n' + "router.delete('" + url + "', " + fns.delete(answers) + ");"
         ].join('\n');
     }
 
-    function generateLoadDatabaseCode(self) {
-        var answers, routeSrc;
+    /**
+     * Generates the code for the server router.
+     *
+     * @param {Object} self The generator context.
+     * @returns {string} The JavaScript code for the router.
+     */
+    function generateRoutingCode(self) {
+        var answers, models, src;
 
         answers = self.config.get('answers');
-
-        if (!answers) {
-            return '';
-        }
-
-        switch (answers.db.id) {
-            case 'sqlite':
-                routeSrc = "\ndb = require('sqlite3');";
-                break;
-            case 'nosql':
-                routeSrc = "\ndb = require('nosql');";
-        }
-
-        return routeSrc;
-    }
-
-    function generateRoutingCode(self) {
-        var beautify, models, newRoute, routeSrc, routes;
-
-        beautify = require('js-beautify');
         models = self.config.get('models');
-        newRoute = models.slice(-1)[0];
-        routes = self.config.get('routes') || [];
-        routeSrc = [
-            '(function () {',
-            'var express, router, db;',
-            "express = require('express');",
-            'router = express.Router();\n'
-        ].join('\n');
-        routeSrc += generateLoadDatabaseCode(self);
-        routes.push({
-            name: newRoute.name,
-            url: '/' + newRoute.name.toLowerCase().replace(/\s+/g, '-')
-        });
-        routes.forEach(function (route) {
-            routeSrc += generateRouteCode(self, route);
-        });
-        routeSrc += '\n})();';
-        self.config.set('routes', routes);
+        src = '';
 
-        return beautify(routeSrc);
-    }
+        models.forEach(function (model) {
+            src += generateModelCode(self, answers, model);
+        });
 
-    function composeServerRoutes(self) {
-        self.fs.write(
-            self.destinationPath('src/components/router/api.js'),
-            generateRoutingCode(self)
-        );
+        return src;
     }
 
     module.exports = function writeServerRoutes(self) {
-        composeServerRoutes(self);
+        var answers, beautify, codeTemplate, headerCode, preprocess, routeSrc;
+
+        answers = self.config.get('answers');
+        beautify = require('js-beautify');
+        preprocess = require('preprocess');
+
+        codeTemplate = self.fs.read(
+            path.join(self.sourceRoot(), 'route/server/code.js')
+        );
+
+        headerCode = [];
+
+        switch (answers.db.id) {
+            case 'sqlite':
+                headerCode = headerCode.concat([
+                    'var db, express, router, sqlite;',
+                    '',
+                    "express = require('express');",
+                    'router = express.Router();',
+                    '',
+                    "sqlite = require('sqlite3').verbose();",
+                    "db = new sqlite.Database('" + self.config.get('currentDb').replace('\\', '\\\\') + "')"
+                ]);
+
+                break;
+        }
+
+        routeSrc = preprocess.preprocess(codeTemplate, {
+            headerCode: headerCode.join('\n'),
+            bodyCode: generateRoutingCode(self).trim()
+        }, {
+            type: 'js'
+        });
+
+        self.fs.write(
+            self.destinationPath('src/components/router/api.js'),
+            beautify(routeSrc)
+        );
     };
 })();

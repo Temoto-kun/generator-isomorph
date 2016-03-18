@@ -40,7 +40,7 @@
             dbPath = determineDatabasePath(self, answers);
 
             self.fs.write(dbPath, '');
-            answers.currentDatabase = dbPath;
+            self.config.set('currentDb', dbPath);
             self.config.set('answers', answers);
         }
     };

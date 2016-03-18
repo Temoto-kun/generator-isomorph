@@ -21,6 +21,15 @@
     "url": "https://github.com/Temoto-kun/generator-isomorph/issues"
   },
   "homepage": "https://github.com/Temoto-kun/generator-isomorph#readme",
+  "jscsConfig": {
+    "preset": "crockford",
+    "fileExtensions": [
+      ".js",
+      ".jsx"
+    ],
+    "esnext": true,
+    "maxErrors": null
+  },
   "eslintConfig": {
     "root": true,
     "env": {
@@ -52,6 +61,10 @@
     "preprocess": "^3.1.0",
     "request": "^2.69.0",
     "require-dir": "^0.3.0",
+    "slug": "^0.9.1",
     "yeoman-generator": "^0.22.5"
+  },
+  "optionalDependencies": {
+    "sqlite3": "^3.1.1"
   }
 }
