@@ -1,3 +1,5 @@
 (function () {
-    /* @echo headerCode */ /* @echo bodyCode */
+/* @echo headerCode */
+
+/* @echo bodyCode */
 })();

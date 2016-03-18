@@ -22,9 +22,9 @@
         url = slug(model.name);
 
         return [
-            '\n\n' + "router.get('" + url + "', " + fns.get(answers) + ");",
-            '\n' + "router.post('" + url + "', " + fns.post(answers) + ");",
-            '\n' + "router.delete('" + url + "', " + fns.delete(answers) + ");"
+            '\n\n' + "router.get('" + url + "', " + fns.get(model, answers) + ");",
+            '\n' + "router.post('" + url + "', " + fns.post(model, answers) + ");",
+            '\n' + "router.delete('" + url + "', " + fns.delete(model, answers) + ");"
         ].join('\n');
     }
 
@@ -70,7 +70,7 @@
                     'router = express.Router();',
                     '',
                     "sqlite = require('sqlite3').verbose();",
-                    "db = new sqlite.Database('" + self.config.get('currentDb').replace('\\', '\\\\') + "')"
+                    "db = new sqlite.Database('" + self.config.get('currentDb').replace('\\', '\\\\') + "');"
                 ]);
 
                 break;

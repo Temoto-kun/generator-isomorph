@@ -5,16 +5,19 @@
     db = new sqlite.Database(':memory:');
 
     module.exports = function (model, answers) {
+        var GET;
+
         switch (answers.db.id) {
             case 'sqlite':
-                return function GET(req, res, next) {
-                    db.serialize(function () {
-                        db.run('SELECT * FROM ' + model.name + ';');
+                GET = new Function('return function GET(req, res, next) {' +
+                    'db.serialize(function () {' +
+                        "db.all('SELECT * FROM " + model.name + "', function (err, rows) {" +
+                            "res.json({ status: 'ok', data: rows });" +
+                        '});' +
+                    '});' +
+                '}');
 
-                        // TODO model.name should be resolved here.
-                    });
-                    res.json({ status: 'ok' });
-                };
+                return GET();
         }
     };
 })();
