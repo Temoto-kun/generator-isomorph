@@ -30,6 +30,7 @@
                             '.offset((page - 1) * itemsPerPage)',
                             '.limit(itemsPerPage)',
                             '.then(function (rows) {',
+                                'db.destroy();',
                                 'res.json({ total_items: counts.totalItems, total_pages: counts.totalPages, items: rows, page: page });',
                             '});',
                         '});'

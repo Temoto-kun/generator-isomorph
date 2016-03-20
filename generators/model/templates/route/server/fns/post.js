@@ -15,6 +15,7 @@
                     "db('" + naming.tableName(model.name) + "')",
                         '.insert(req.body)',
                         '.then(function (ids) {',
+                            'db.destroy();',
                             'res.json({ ids: ids });',
                         '});'
                 ]);

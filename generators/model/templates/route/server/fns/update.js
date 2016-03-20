@@ -16,6 +16,7 @@
                         ".where('id', req.params.id)",
                         ".update(req.body)",
                         '.then(function (result) {',
+                            'db.destroy();',
                             'res.json(result);',
                         '});'
                 ]);

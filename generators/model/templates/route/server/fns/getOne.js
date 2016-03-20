@@ -15,6 +15,7 @@
                     "db('" + naming.tableName(model.name) + "')",
                         ".where('id', req.params.id)",
                         '.then(function (result) {',
+                            'db.destroy();',
                             'res.json(result);',
                         '});'
                 ]);

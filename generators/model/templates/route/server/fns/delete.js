@@ -16,6 +16,7 @@
                         ".where('id', req.params.id)",
                         ".del()",
                         '.then(function (result) {',
+                            'db.destroy();',
                             'res.json(result);',
                         '});'
                 ]);
