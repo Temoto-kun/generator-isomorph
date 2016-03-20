@@ -30,7 +30,7 @@
             '',
             ' ' + bar(78),
             '  ' + chalk.yellow('isomorph') + chalk.red(':component'),
-            '  Component Generator',
+            '  Component Subgenerator',
             '',
             '  Coded by ' + chalk.underline('Temoto-kun') + '.',
             ' ' + bar(78),

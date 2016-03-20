@@ -30,7 +30,7 @@
             '',
             ' ' + bar(78),
             '  ' + chalk.blue('isomorph') + chalk.green(':relation'),
-            '  Model Relation Generator',
+            '  Model Relation Subgenerator',
             '',
             '  Coded by ' + chalk.underline('Temoto-kun') + '.',
             ' ' + bar(78),

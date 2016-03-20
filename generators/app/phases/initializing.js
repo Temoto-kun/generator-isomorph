@@ -30,7 +30,7 @@
             '',
             ' ' + bar(78),
             '  ' + chalk.blue('isomorph') + chalk.yellow(':app'),
-            '  Base Generator',
+            '  Main Generator',
             '',
             '  Coded by ' + chalk.underline('Temoto-kun') + '.',
             ' ' + bar(78),

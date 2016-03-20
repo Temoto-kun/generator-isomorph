@@ -27,66 +27,71 @@
             table.increments();
 
             model.attrs.forEach(function (attr) {
+                var column;
+
                 switch (attr.typeBase) {
                     case 'boolean':
-                        table.boolean(attr.name);
+                        column = table.boolean(attr.name);
                         break;
                     case 'integer':
                         switch (attr.type) {
                             case 'BIGINT':
-                                table.bigInteger(attr.name);
+                                column = table.bigInteger(attr.name);
                                 break;
                             default:
-                                table.integer(attr.name);
+                                column = table.integer(attr.name);
                                 break;
                         }
                         break;
                     case 'string':
                         switch (attr.type) {
                             case 'TEXT':
-                                table.text(attr.name);
+                                column = table.text(attr.name);
                                 break;
                             case 'MEDIUMTEXT':
-                                table.text(attr.name, 'mediumtext');
+                                column = table.text(attr.name, 'mediumtext');
                                 break;
                             case 'LONGTEXT':
-                                table.text(attr.name, 'longtext');
+                                column = table.text(attr.name, 'longtext');
                                 break;
                             case 'VARCHAR':
                             case 'CHARACTER':
-                                table.string(attr.name, attr.length);
+                                column = table.string(attr.name, attr.length);
                                 break;
                         }
                         break;
                     case 'float':
                         switch (attr.type) {
                             case 'DECIMAL':
-                                table.decimal(attr.name);
+                                column = table.decimal(attr.name);
                                 break;
                             default:
-                                table.float(attr.name);
+                                column = table.float(attr.name);
                                 break;
                         }
                         break;
                     case 'date':
                         switch (attr.type) {
                             case 'DATE':
-                                table.date(attr.name);
+                                column = table.date(attr.name);
                                 break;
                             case 'TIME':
-                                table.time(attr.name);
+                                column = table.time(attr.name);
                                 break;
                             case 'DATETIME':
-                                table.dateTime(attr.name);
+                                column = table.dateTime(attr.name);
                                 break;
                             case 'TIMESTAMP':
-                                table.timestamp(attr.name);
+                                column = table.timestamp(attr.name);
                                 break;
                         }
                         break;
                     case 'binary':
-                        table.binary(attr.name);
+                        column = table.binary(attr.name);
                         break;
+                }
+                if (!attr.nullable) {
+                    column = column.notNullable();
                 }
             });
         })

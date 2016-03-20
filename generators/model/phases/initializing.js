@@ -30,7 +30,7 @@
             '',
             ' ' + bar(78),
             '  ' + chalk.blue('isomorph') + chalk.magenta(':model'),
-            '  Model Generator',
+            '  Model Subgenerator',
             '',
             '  Coded by ' + chalk.underline('Temoto-kun') + '.',
             ' ' + bar(78),

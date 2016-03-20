@@ -1,7 +1,9 @@
 (function () {
-    var chalk, done, prompts;
+    var chalk, done, modelOrder, prompts;
 
     chalk = require('chalk');
+
+    modelOrder = 0;
 
     /**
      * Makes an attribute from an answers hash.
@@ -52,7 +54,9 @@
     function promptModelAttr(self, attrs, cb) {
         var appAnswers;
 
-        appAnswers = self.config.get('answers');
+        appAnswers = self.config.get('answers'); // TODO depending on database, supply missing column types
+
+        ++modelOrder;
 
         if (!attrs) {
             attrs = [];
@@ -70,7 +74,7 @@
         self.prompt([
             {
                 name: 'attr-name',
-                message: "Type in your model's attribute name. " + chalk.red('(Required)'),
+                message: "Type in the name of your model's attribute " + chalk.cyan('#' + modelOrder) + ". " + chalk.red('(Required)'),
                 type: 'input',
                 required: true,
                 validate: function (input) {
@@ -89,7 +93,7 @@
             },
             {
                 name: 'attr-type-base',
-                message: "Select your model's data type.",
+                message: "Select your attribute's data type.",
                 type: 'list',
                 required: true,
                 choices: [
@@ -188,8 +192,16 @@
                         value: 'VARCHAR'
                     },
                     {
-                        name: 'TEXT', // TODO add types of TEXT, e.g. TEXT, MEDIUMTEXT, LONGTEXT
+                        name: 'TEXT',
                         value: 'TEXT'
+                    },
+                    {
+                        name: 'MEDIUMTEXT',
+                        value: 'MEDIUMTEXT'
+                    },
+                    {
+                        name: 'LONGTEXT',
+                        value: 'LONGTEXT'
                     }
                 ],
                 when: function (answers) {
@@ -202,7 +214,10 @@
                 type: 'input',
                 required: true,
                 when: function (answers) {
-                    return (answers['attr-type-base'] === 'string' && answers['attr-type'] !== 'TEXT');
+                    return (answers['attr-type-base'] === 'string' &&
+                        (answers['attr-type'] === 'VARCHAR' ||
+                        answers['attr-type'] === 'CHARACTER')
+                    );
                 },
                 validate: function (input) {
                     if (isNaN(input)) {
