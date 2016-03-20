@@ -6,7 +6,7 @@
 
         nodeModules = require('./../common/npm-deps')(answers);
 
-        //self.npmInstall(nodeModules.dependencies, { saveDev: false });
-        //self.npmInstall(nodeModules.devDependencies, { saveDev: true });
+        self.npmInstall(nodeModules.dependencies, { save: true });
+        self.npmInstall(nodeModules.devDependencies, { saveDev: true });
     };
 })();

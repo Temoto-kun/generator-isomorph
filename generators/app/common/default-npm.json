@@ -1,9 +1,10 @@
 {
   "save": [
-    "express",
     "body-parser",
     "cookie-parser",
+    "express",
     "debug",
+    "multer",
     "morgan",
     "serve-favicon",
     "scut",

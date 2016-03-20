@@ -15,7 +15,7 @@
             desc: 'Indicates that the project should use bracket-free syntax.',
             message: 'Would you like indented syntax for your project (i.e. use Jade, CoffeeScript, and indented Sass syntax?',
             type: 'confirm',
-            default: false
+            'default': false
         },
         {
             name: 'js',

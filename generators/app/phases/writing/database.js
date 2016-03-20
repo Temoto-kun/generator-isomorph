@@ -11,7 +11,7 @@
      * @returns {String} The database path.
      */
     function determineDatabasePath(self, answers) {
-        switch(answers.db.id) {
+        switch (answers.db.id) {
             case 'sqlite':
                 return self.destinationPath('database/' + date + '/db.sqlite');
             case 'nosql':
@@ -31,17 +31,26 @@
         return fileBasedDb.indexOf(answers.db.id) !== -1;
     }
 
-    module.exports = function (self) {
-        var answers, dbPath;
+    module.exports = function writeDatabase(self) {
+        var answers, creds, dbPath;
 
         answers = self.config.get('answers');
 
         if (isDatabaseFileBased(answers)) {
             dbPath = determineDatabasePath(self, answers);
-
             self.fs.write(dbPath, '');
             self.config.set('currentDb', dbPath);
             self.config.set('answers', answers);
+        }
+
+        if (answers.db.id === 'mysql') {
+            creds = {
+                host     : 'localhost',
+                user     : 'root',
+                password : 'password',
+                database : self.appname.replace(/\s+/g, '_')
+            };
+            self.fs.writeJSON(self.destinationPath('mysql.json'), creds);
         }
     };
 })();

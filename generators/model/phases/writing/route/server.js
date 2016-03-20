@@ -54,30 +54,41 @@
         answers = self.config.get('answers');
         beautify = require('js-beautify');
         preprocess = require('preprocess');
-
         codeTemplate = self.fs.read(
             path.join(self.sourceRoot(), 'route/server/code.js')
         );
-
         headerCode = [];
-
         switch (answers.db.id) {
             case 'sqlite':
                 headerCode = headerCode.concat([
-                    'var db, express, router, sqlite;',
+                    'var db, express, router, sqlite, squel;',
                     '',
                     "express = require('express');",
                     'router = express.Router();',
+                    "squel = require('squel');",
                     '',
                     "sqlite = require('sqlite3').verbose();",
                     "db = new sqlite.Database('" + self.config.get('currentDb').replace('\\', '\\\\') + "');"
                 ]);
-
+                break;
+            case 'mysql':
+                headerCode = headerCode.concat([
+                    'var db, express, mysql, router, squel;',
+                    '',
+                    "express = require('express');",
+                    'router = express.Router();',
+                    "squel = require('squel');",
+                    '',
+                    "mysql = require('mysql');",
+                    "db = mysql.createConnection(require('./mysql.json'));", // TODO create mysql.json in writing phase of app generator
+                    '',
+                    'db.connect();'
+                ]);
                 break;
         }
-
+        headerCode = headerCode.join('\n');
         routeSrc = preprocess.preprocess(codeTemplate, {
-            headerCode: headerCode.join('\n'),
+            headerCode: headerCode,
             bodyCode: generateRoutingCode(self).trim()
         }, {
             type: 'js'

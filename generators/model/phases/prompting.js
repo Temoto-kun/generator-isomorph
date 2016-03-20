@@ -13,7 +13,8 @@
 
         attr = {
             name: answers['attr-name'].trim(),
-            nullable: answers['attr-nullable']
+            nullable: answers['attr-nullable'],
+            typeBase: answers['attr-type-base']
         };
 
         switch(answers['attr-type-base']) {
@@ -27,7 +28,7 @@
                 break;
             case 'string':
                 if (!!answers['attr-length']) {
-                    attr.length = answers['attr-length'];
+                    attr.length = parseInt(answers['attr-length']);
                 }
                 attr.type = answers['attr-type'];
                 break;
@@ -49,6 +50,10 @@
      * @returns {undefined}
      */
     function promptModelAttr(self, attrs, cb) {
+        var appAnswers;
+
+        appAnswers = self.config.get('answers');
+
         if (!attrs) {
             attrs = [];
         }
@@ -98,7 +103,7 @@
                     },
                     {
                         name: 'real (float)',
-                        value: 'real'
+                        value: 'float'
                     },
                     {
                         name: 'string',
@@ -124,18 +129,18 @@
                         name: 'INTEGER',
                         value: 'INTEGER'
                     },
-                    {
-                        name: 'TINYINT',
-                        value: 'TINYINT'
-                    },
-                    {
-                        name: 'SMALLINT',
-                        value: 'SMALLINT'
-                    },
-                    {
-                        name: 'MEDIUMINT',
-                        value: 'MEDIUMINT'
-                    },
+                    //{
+                    //    name: 'TINYINT',
+                    //    value: 'TINYINT'
+                    //},
+                    //{
+                    //    name: 'SMALLINT',
+                    //    value: 'SMALLINT'
+                    //},
+                    //{
+                    //    name: 'MEDIUMINT',
+                    //    value: 'MEDIUMINT'
+                    //},
                     {
                         name: 'BIGINT',
                         value: 'BIGINT'
@@ -147,14 +152,14 @@
             },
             {
                 name: 'attr-type',
-                message: 'What type of ' + chalk.cyan('real') + ' is this?',
+                message: 'What type of ' + chalk.cyan('float') + ' is this?',
                 type: 'list',
                 required: true,
                 choices: [
-                    {
-                        name: 'REAL',
-                        value: 'REAL'
-                    },
+                    //{
+                    //    name: 'REAL',
+                    //    value: 'REAL'
+                    //},
                     {
                         name: 'FLOAT',
                         value: 'FLOAT'
@@ -165,7 +170,7 @@
                     }
                 ],
                 when: function (answers) {
-                    return answers['attr-type-base'] === 'real';
+                    return answers['attr-type-base'] === 'float';
                 }
             },
             {
@@ -197,7 +202,13 @@
                 type: 'input',
                 required: true,
                 when: function (answers) {
-                    return (answers['attr-type-base'] === 'string' && answers['attr-type'] !== 'text');
+                    return (answers['attr-type-base'] === 'string' && answers['attr-type'] !== 'TEXT');
+                },
+                validate: function (input) {
+                    if (isNaN(input)) {
+                        return 'Please enter an integer.'
+                    }
+                    return (parseInt(input) > 0 || 'Please enter an integer greater than zero.');
                 }
             },
             {
@@ -208,15 +219,23 @@
                 choices: [
                     {
                         name: 'DATETIME',
-                        value: 'datetime'
+                        value: 'DATETIME'
                     },
                     {
                         name: 'DATE',
-                        value: 'date'
+                        value: 'DATE'
                     },
                     {
                         name: 'TIME',
-                        value: 'time'
+                        value: 'TIME'
+                    },
+                    //{
+                    //    name: 'YEAR',
+                    //    value: 'YEAR'
+                    //},
+                    {
+                        name: 'TIMESTAMP',
+                        value: 'TIMESTAMP'
                     }
                 ],
                 when: function (answers) {

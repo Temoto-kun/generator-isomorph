@@ -9,13 +9,20 @@
 
         switch (answers.db.id) {
             case 'sqlite':
-                GET = new Function('return function GET(req, res, next) {' +
-                    'db.serialize(function () {' +
-                        "db.all('SELECT * FROM " + model.name + "', function (err, rows) {" +
-                            "res.json({ status: 'ok', data: rows });" +
-                        '});' +
-                    '});' +
-                '}');
+                GET = new Function([
+                    'return function GET(req, res, next) {',
+                        'var cmd;',
+                        '',
+                        'cmd = squel.select()',
+                            ".from('" + model.name + "');",
+                        '',
+                        'db.serialize(function () {',
+                            "db.all(cmd.toString(), function (err, rows) {",
+                                "res.json(rows);",
+                            '});',
+                        '});',
+                    '}'
+                ].join('\n'));
 
                 return GET();
         }

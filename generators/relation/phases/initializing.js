@@ -29,8 +29,8 @@
         self.log([
             '',
             ' ' + bar(78),
-            '  ' + chalk.yellow('isomorph') + chalk.red(':component'),
-            '  Component Generator',
+            '  ' + chalk.blue('isomorph') + chalk.green(':relation'),
+            '  Model Relation Generator',
             '',
             '  Coded by ' + chalk.underline('Temoto-kun') + '.',
             ' ' + bar(78),
