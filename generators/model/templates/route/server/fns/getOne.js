@@ -4,7 +4,7 @@
     naming = require('./../../../../common/utils/naming');
 
     module.exports = function (model, answers) {
-        var DELETE, stmt;
+        var GET_ONE, stmt;
 
         stmt = [];
 
@@ -14,17 +14,16 @@
                 stmt = stmt.concat([
                     "db('" + naming.tableName(model.name) + "')",
                         ".where('id', req.params.id)",
-                        ".del()",
                         '.then(function (result) {',
                             'res.json(result);',
                         '});'
                 ]);
-                stmt.unshift('return function DELETE(req, res, next) {');
+                stmt.unshift('return function GET_ONE(req, res, next) {');
                 stmt.push('};');
 
-                DELETE = new Function(stmt.join('\n'));
+                GET_ONE = new Function(stmt.join('\n'));
         }
 
-        return DELETE();
+        return GET_ONE();
     };
 })();

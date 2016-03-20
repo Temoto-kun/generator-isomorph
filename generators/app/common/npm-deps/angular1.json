@@ -11,7 +11,7 @@
     "ngCookies":  { "save": "angular-cookies" },
     "ngAnimate":  { "save": "angular-animate" },
     "ngMessages": { "save": "angular-messages" },
-    "a8mFilters": { "save": "angular-filters" },
+    "a8mFilters": { "save": "angular-filter" },
     "ngI18N": { "save": "angular-i18n" },
     "angularTranslate": { "save": "angular-translate" },
     "ngResource": { "save": "angular-resource" },

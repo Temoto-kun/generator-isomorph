@@ -50,6 +50,7 @@
                 password : 'password',
                 database : self.appname.replace(/\s+/g, '_')
             };
+            self.config.set('currentDb', self.destinationPath('mysql.json'));
             self.fs.writeJSON(self.destinationPath('mysql.json'), creds);
         }
     };

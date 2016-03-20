@@ -1,7 +1,8 @@
 (function () {
-    var answers, packageJson, requireDir;
+    var answers, packageJson, requireDir, slug;
 
     requireDir = require('require-dir');
+    slug = require('slug');
 
     /**
      * Initializes the contents of the package.json file.
@@ -13,13 +14,13 @@
         packageJson = self.fs.readJSON(self.destinationPath('package.json'), {});
 
         packageJson.title = packageJson.name || answers.name;
-        packageJson.name = packageJson.name || answers.name.toLowerCase().replace(/\s+/g, '-');
+        packageJson.name = packageJson.name || slug(answers.name.replace(/\s+/g, ' '));
         packageJson.version = packageJson.version || '0.0.0';
         packageJson.description = packageJson.description || answers.description;
         packageJson.authors = packageJson.authors || [
             answers.author + ' <' + answers.email + '>'
         ];
-        packageJson.private = true;
+        packageJson['private'] = true;
     }
 
     /**

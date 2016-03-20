@@ -14,7 +14,9 @@
             n = 79;
         }
 
-        for(i = 0; i < n; i++, bar += '-');
+        for (i = 0; i < n; i++) {
+            bar += '-';
+        }
 
         return bar;
     }

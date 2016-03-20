@@ -12,19 +12,21 @@
      * @returns {string} The JavaScript code for the model.
      */
     function generateModelCode(self, answers, model) {
-        var fns, requireDir, slug, url;
+        var fns, naming, requireDir, url;
 
         requireDir = require('require-dir');
-        slug = require('slug');
+        naming = require('./../../../common/utils/naming');
 
         fns = requireDir(path.join(self.sourceRoot(), 'route/server/fns'));
 
-        url = slug(model.name);
+        url = naming.urlPlural(model.name);
 
         return [
-            '\n\n' + "router.get('" + url + "', " + fns.get(model, answers) + ");",
+            '\n\n' + "router.get('" + url + "', " + fns.getMany(model, answers) + ");",
+            '\n' + "router.get('" + url + "/:id', " + fns.getOne(model, answers) + ");",
             '\n' + "router.post('" + url + "', " + fns.post(model, answers) + ");",
-            '\n' + "router.delete('" + url + "', " + fns.delete(model, answers) + ");"
+            '\n' + "router.post('" + url + "/:id', " + fns.update(model, answers) + ");",
+            '\n' + "router.delete('" + url + "/:id', " + fns.delete(model, answers) + ");"
         ].join('\n');
     }
 
@@ -49,7 +51,7 @@
     }
 
     module.exports = function writeServerRoutes(self) {
-        var answers, beautify, codeTemplate, headerCode, preprocess, routeSrc;
+        var answers, beautify, codeTemplate, currentDb, dbConfig, headerCode, preprocess, routeSrc;
 
         answers = self.config.get('answers');
         beautify = require('js-beautify');
@@ -58,31 +60,44 @@
             path.join(self.sourceRoot(), 'route/server/code.js')
         );
         headerCode = [];
+        dbConfig = {};
+        currentDb = self.config.get('currentDb');
         switch (answers.db.id) {
             case 'sqlite':
+                dbConfig = {
+                    client: 'sqlite3',
+                    connection: {
+                        filename: currentDb
+                    },
+                    useNullAsDefault: true,
+                    debug: true
+                };
                 headerCode = headerCode.concat([
-                    'var db, express, router, sqlite, squel;',
+                    'var db, express, router;',
                     '',
                     "express = require('express');",
                     'router = express.Router();',
-                    "squel = require('squel');",
-                    '',
-                    "sqlite = require('sqlite3').verbose();",
-                    "db = new sqlite.Database('" + self.config.get('currentDb').replace('\\', '\\\\') + "');"
+                    "knex = require('knex');",
+                    "db = knex(" + JSON.stringify(dbConfig)  + ");"
                 ]);
                 break;
             case 'mysql':
+                //dbConfig = {
+                //    client: 'mysql',
+                //    connection: currentDb,
+                //    useNullAsDefault: true,
+                //    debug: true
+                //};
+
+                dbConfig = "{client:'mysql',connection:require('./../../../mysql.json'),useNullAsDefault:true,debug:true}";
+
                 headerCode = headerCode.concat([
-                    'var db, express, mysql, router, squel;',
+                    'var db, express, knex, router;',
                     '',
                     "express = require('express');",
                     'router = express.Router();',
-                    "squel = require('squel');",
-                    '',
-                    "mysql = require('mysql');",
-                    "db = mysql.createConnection(require('./mysql.json'));", // TODO create mysql.json in writing phase of app generator
-                    '',
-                    'db.connect();'
+                    "knex = require('knex');",
+                    "db = knex(" + dbConfig + ");"
                 ]);
                 break;
         }
@@ -93,10 +108,11 @@
         }, {
             type: 'js'
         });
-
+        self.conflicter.force = true;
         self.fs.write(
             self.destinationPath('src/components/router/api.js'),
             beautify(routeSrc)
         );
+        self.conflicter.force = self.options.force;
     };
 })();

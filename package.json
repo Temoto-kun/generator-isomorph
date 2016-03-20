@@ -59,6 +59,7 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.12.0",
     "npm": "^3.7.2",
+    "pluralize": "^1.2.1",
     "preprocess": "^3.1.0",
     "request": "^2.69.0",
     "require-dir": "^0.3.0",
@@ -66,6 +67,9 @@
     "yeoman-generator": "^0.22.5"
   },
   "optionalDependencies": {
-    "knex": "^0.10.0"
+    "knex": "^0.10.0",
+    "mysql": "^2.10.2",
+    "nosql": "^3.1.0",
+    "sqlite3": "^3.1.1"
   }
 }

@@ -188,7 +188,7 @@
                         value: 'VARCHAR'
                     },
                     {
-                        name: 'TEXT',
+                        name: 'TEXT', // TODO add types of TEXT, e.g. TEXT, MEDIUMTEXT, LONGTEXT
                         value: 'TEXT'
                     }
                 ],
@@ -209,7 +209,8 @@
                         return 'Please enter an integer.'
                     }
                     return (parseInt(input) > 0 || 'Please enter an integer greater than zero.');
-                }
+                },
+                'default': 255
             },
             {
                 name: 'attr-type',
@@ -273,7 +274,7 @@
         if (self.arguments.length < 1) {
             prompts.push({
                 name: 'name',
-                message: 'Type in your model name. ' + chalk.red('(Required)'),
+                message: 'Type in your model name (please use a singular noun). ' + chalk.red('(Required)'),
                 type: 'input',
                 required: true,
                 validate: function (input) {
