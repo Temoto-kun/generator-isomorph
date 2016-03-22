@@ -281,25 +281,39 @@
         });
     }
 
+    function isModelNameDuplicate(self, name) {
+        var models;
+
+        models = self.config.get('models') || [];
+
+        return models.reduce(function (curr, next) {
+            return curr || next.name.toLowerCase().trim() === name.toLowerCase().trim();
+        }, false);
+    }
+
     module.exports = function prompting(self) {
+        var modelNameDuplicateArg = isModelNameDuplicate(self, self.arguments[0]);
         done = self.async();
-
-        prompts = [];
-
-        if (self.arguments.length < 1) {
-            prompts.push({
+        prompts = [
+            {
                 name: 'name',
                 message: 'Type in your model name (please use a singular noun). ' + chalk.red('(Required)'),
                 type: 'input',
                 required: true,
                 validate: function (input) {
+                    if (isModelNameDuplicate(self, input.name)) {
+                        return 'There is already a model of the same name.';
+                    }
                     return (input.trim().length > 0 || 'Please enter your model name.');
+                },
+                when: function () {
+                    return (self.arguments.length < 1 || modelNameDuplicateArg);
                 }
-            });
+            }
+        ].concat(require('./../common/options'));
+        if (modelNameDuplicateArg) {
+            self.log('There is already a model of the same name.');
         }
-
-        prompts = prompts.concat(require('./../common/options'));
-
         self.prompt(prompts, function (answers) {
             if (self.arguments.length > 0) {
                 answers.name = self.arguments.shift();
