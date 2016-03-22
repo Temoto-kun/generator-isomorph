@@ -28,12 +28,12 @@
 
         self.log([
             '',
-            ' ' + bar(78),
-            '  ' + chalk.yellow('isomorph') + chalk.red(':component'),
+            ' ' + logging.bar(78),
+            '  ' + logging.chalk.yellow('isomorph') + logging.chalk.red(':component'),
             '  Component Subgenerator',
             '',
-            '  Coded by ' + chalk.underline('Temoto-kun') + '.',
-            ' ' + bar(78),
+            '  Coded by ' + logging.chalk.underline('Temoto-kun') + '.',
+            ' ' + logging.bar(78),
             ''
         ].join('\n'));
     };

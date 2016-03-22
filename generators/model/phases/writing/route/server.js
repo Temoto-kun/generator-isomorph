@@ -15,7 +15,7 @@
         var fns, naming, requireDir, url;
 
         requireDir = require('require-dir');
-        naming = require('./../../../common/utils/naming');
+        naming = require('./../../../../../common/naming');
 
         fns = requireDir(path.join(self.sourceRoot(), 'route/server/fns'));
 

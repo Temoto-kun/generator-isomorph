@@ -19,7 +19,7 @@
             typeBase: answers['attr-type-base']
         };
 
-        switch(answers['attr-type-base']) {
+        switch (answers['attr-type-base']) {
             case 'boolean':
                 attr.type = 'BOOLEAN';
                 break;
@@ -281,7 +281,14 @@
         });
     }
 
-    function isModelNameDuplicate(self, name) {
+    /**
+     * Function to check if a model exists.
+     *
+     * @param {Object} self The generator instance.
+     * @param {String} name The model name to check.
+     * @returns {Boolean} A value indicating if the named model exists.
+     */
+    function isModelNameExisting(self, name) {
         var models;
 
         models = self.config.get('models') || [];
@@ -292,7 +299,7 @@
     }
 
     module.exports = function prompting(self) {
-        var modelNameDuplicateArg = isModelNameDuplicate(self, self.arguments[0]);
+        var modelNameDuplicateArg = isModelNameExisting(self, self.arguments[0]);
         done = self.async();
         prompts = [
             {
@@ -301,7 +308,7 @@
                 type: 'input',
                 required: true,
                 validate: function (input) {
-                    if (isModelNameDuplicate(self, input.name)) {
+                    if (isModelNameExisting(self, input.name)) {
                         return 'There is already a model of the same name.';
                     }
                     return (input.trim().length > 0 || 'Please enter your model name.');

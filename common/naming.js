@@ -13,6 +13,12 @@
         },
         urlPlural: function (name) {
             return slug(pluralize(name.replace(/\s+/g, ' ')));
+        },
+        packageName: function (name) {
+            return slug(name.replace(/\s+/g, ' '));
+        },
+        packageTitle: function (name) {
+            return name.replace(/\s+/g, ' ');
         }
     };
 })();

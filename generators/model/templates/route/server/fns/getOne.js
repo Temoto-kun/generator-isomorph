@@ -1,7 +1,7 @@
 (function () {
     var naming;
 
-    naming = require('./../../../../common/utils/naming');
+    naming = require('./../../../../../../common/naming');
 
     module.exports = function (model, answers) {
         var GET_ONE, stmt;

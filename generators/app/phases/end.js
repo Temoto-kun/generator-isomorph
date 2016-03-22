@@ -1,10 +1,8 @@
 (function () {
-    /**
-     * Generates a string of n dash characters.
-     *
-     * @param {Number} n  an integer value.
-     * @returns {string} The string of dash characters.
-     */
+    var logging;
+
+    logging = require('./../../../common/logging');
+
     function bar(n) {
         var bar, i;
 
@@ -24,9 +22,9 @@
     module.exports = function end(self) {
         self.log([
             '',
-            ' ' + bar(78),
+            ' ' + logging.bar(78),
             '  All done! Goodbye!',
-            ' ' + bar(78),
+            ' ' + logging.bar(78),
             ''
         ].join('\n'));
     };
