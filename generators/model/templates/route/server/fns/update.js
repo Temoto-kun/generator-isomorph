@@ -1,9 +1,5 @@
 (function () {
-    var naming;
-
-    naming = require('./../../../../../../common/naming');
-
-    module.exports = function (model, answers) {
+    module.exports = function updateFn(scope, model, answers) {
         var UPDATE, stmt;
 
         stmt = [];
@@ -12,7 +8,7 @@
             case 'sqlite':
 
                 stmt = stmt.concat([
-                    "db('" + naming.tableName(model.name) + "')",
+                    "db('" + scope.global.naming.tableName(model.name) + "')",
                         ".where('id', req.params.id)",
                         ".update(req.body)",
                         '.then(function (result) {',

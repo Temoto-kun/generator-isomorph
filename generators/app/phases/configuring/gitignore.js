@@ -3,7 +3,7 @@
 
     fs = require('fs');
 
-    module.exports = function (self) {
+    module.exports = function (self, scope) {
         //self.fetch('https://www.gitignore.io/api/node', self.destinationRoot(), function () {
         //    fs.rename(self.destinationPath('node'), self.destinationPath('.gitignore'));
         //});

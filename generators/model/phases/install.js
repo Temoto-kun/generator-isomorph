@@ -1,4 +1,4 @@
 (function () {
-    module.exports = function (self) {
+    module.exports = function install(self, scope) {
     };
 })();

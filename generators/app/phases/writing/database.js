@@ -31,7 +31,7 @@
         return fileBasedDb.indexOf(answers.db.id) !== -1;
     }
 
-    module.exports = function writeDatabase(self) {
+    module.exports = function writeDatabase(self, scope) {
         var answers, creds, dbPath;
 
         answers = self.config.get('answers');

@@ -42,10 +42,10 @@
         });
     }
 
-    module.exports = function writePackageJson(self) {
+    module.exports = function writePackageJson(self, scope) {
         answers = self.config.get('answers');
 
-        initializePackageJson(self, answers);
+        initializePackageJson(self);
         runSubtasks(self, requireDir('./package-json'));
 
         self.fs.writeJSON(self.destinationPath('package.json'), packageJson);

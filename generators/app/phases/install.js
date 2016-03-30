@@ -1,5 +1,5 @@
 (function () {
-    module.exports = function install(self) {
+    module.exports = function install(self, scope) {
         var answers, nodeModules;
 
         answers = self.config.get('answers');

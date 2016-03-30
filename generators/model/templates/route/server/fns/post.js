@@ -1,9 +1,5 @@
 (function () {
-    var naming;
-
-    naming = require('./../../../../../../common/naming');
-
-    module.exports = function (model, answers) {
+    module.exports = function postFn(scope, model, answers) {
         var POST, stmt;
 
         stmt = [];
@@ -12,7 +8,7 @@
             case 'sqlite':
 
                 stmt = stmt.concat([
-                    "db('" + naming.tableName(model.name) + "')",
+                    "db('" + scope.global.naming.tableName(model.name) + "')",
                         '.insert(req.body)',
                         '.then(function (ids) {',
                             'db.destroy();',

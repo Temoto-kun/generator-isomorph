@@ -294,7 +294,8 @@
         models = self.config.get('models') || [];
 
         return models.reduce(function (curr, next) {
-            return curr || next.name.toLowerCase().trim() === name.toLowerCase().trim();
+            return !!name && !!next && !!next.name &&
+                (curr || next.name.toLowerCase().trim() === name.toLowerCase().trim());
         }, false);
     }
 

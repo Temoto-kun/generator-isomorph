@@ -13,7 +13,7 @@
 
     path = require('path');
 
-    module.exports = function (self) {
+    module.exports = function (self, scope) {
         self.fs.write(
             self.destinationPath('.editorconfig'),
             [

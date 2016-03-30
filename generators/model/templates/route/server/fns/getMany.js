@@ -1,9 +1,5 @@
 (function () {
-    var naming;
-
-    naming = require('./../../../../../../common/naming');
-
-    module.exports = function (model, answers) {
+    module.exports = function getManyFn(scope, model, answers) {
         var GET_MANY, stmt;
 
         stmt = [];
@@ -13,7 +9,7 @@
 
                 stmt = stmt.concat([
                     "knex.select()",
-                        ".table('" + naming.tableName(model.name) + "')"
+                        ".table('" + scope.global.naming.tableName(model.name) + "')"
                 ]);
 
                 if (model.pagination) {
@@ -21,7 +17,7 @@
                         'var itemsPerPage, page;',
                         'itemsPerPage = req.params.itemsPerPage || 10;',
                         'page = req.params.page || 1;',
-                        "db.table('" + naming.tableName(model.name) + "')",
+                        "db.table('" + scope.global.naming.tableName(model.name) + "')",
                             ".select(db.raw('count(*) as totalItems, (count(*) / ?) as totalPages', itemsPerPage))",
                             '.then(function (counts) {'
                     ].concat(stmt);

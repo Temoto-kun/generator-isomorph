@@ -3,16 +3,16 @@
 
     path = require('path');
 
-    module.exports = function (self) {
+    module.exports = function (self, scope) {
         answers = self.config.get('answers');
 
         self.fs.write(
             self.destinationPath('README.txt'),
             [
-                '-------------------------------------------------------------------------------',
+                scope.global.logging.bar(79),
                 answers.name,
                 answers.description,
-                '-------------------------------------------------------------------------------',
+                scope.global.logging.bar(79),
                 '',
                 'Contributors',
                 '------------',

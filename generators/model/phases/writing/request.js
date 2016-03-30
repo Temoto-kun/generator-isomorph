@@ -1,5 +1,5 @@
 (function () {
-    module.exports = function writeRequest(self) {
+    module.exports = function writeRequest(self, scope) {
 
     };
 })();

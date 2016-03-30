@@ -4,62 +4,63 @@
      * Gets the prompts for the prompting phase.
      *
      * @param {Object} self The generator context.
+     * @param {Object} scope The scope object.
      * @returns {Array.<Object>} The prompts.
      */
-    function getPrompts(self) {
-        var chalk, prompts;
-
-        chalk = require('chalk');
+    function getPrompts(self, scope) {
+        var prompts;
 
         prompts = [];
 
         if (self.arguments.length < 1) {
             prompts.push({
                 name: 'name',
-                message: 'Type in your project name. ' + chalk.red('(Required)'),
+                message: 'Type in your project name.',
                 type: 'input',
                 required: true,
-                'default': self.appname,
-                validate: function (input) {
-                    return (input.trim().length > 0 || 'Please enter your project name.');
-                }
+                'default': self.appname
             });
         }
 
         if (self.arguments.length < 2 || true) { // TODO parse description
             prompts.push({
                 name: 'description',
-                message: 'Describe what your project does. ' + chalk.red('(Required)'),
+                message: 'Describe what your project does.',
                 type: 'input',
-                optional: true,
-                validate: function (input) {
-                    return (input.trim().length > 0 || 'Please enter your project description.');
-                }
+                required: true
             });
         }
 
-        prompts = prompts.concat([
-            {
-                name: 'author',
-                message: 'Type in your name. ' + chalk.red('(Required)'),
-                type: 'input',
-                required: true,
-                validate: function (input) {
-                    return (input.trim().length > 0 || 'Please enter your name.');
+        return prompts
+            .concat([
+                {
+                    name: 'author',
+                    message: 'Type in your name.',
+                    type: 'input',
+                    required: true
+                },
+                {
+                    name: 'email',
+                    message: 'Type in your email.',
+                    type: 'input',
+                    required: true
                 }
-            },
-            {
-                name: 'email',
-                message: 'Type in your email. ' + chalk.red('(Required)'),
-                type: 'input',
-                required: true,
-                validate: function (input) {
-                    return (input.trim().length > 0 || 'Please enter your email.');
+            ])
+            .concat(require('./../common/options'))
+            .map(function (prompt) {
+                var validateFn;
+                validateFn = prompt.validate || function () {
+                    return true;
+                };
+                if (prompt.required && prompt.type === 'input') {
+                    prompt.message += ' ' + scope.global.chalk.red('(Required)');
+                    prompt.validate = function (input) {
+                        return (input.trim().length <= 0 ?
+                            'This field is required.' : validateFn(input)
+                        );
+                    }
                 }
-            }
-        ]);
-
-        return prompts.concat(require('./../common/options'));
+            });
     }
 
     module.exports = function prompting(self) {

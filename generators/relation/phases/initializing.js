@@ -1,22 +1,9 @@
 (function () {
-    var logging;
-
-    logging = require('./../../../common/logging');
-
     module.exports = function initializing(self) {
-        var chalk;
-
-        chalk = require('chalk');
-
-        self.log([
-            '',
-            ' ' + logging.bar(78),
-            '  ' + logging.chalk.blue('isomorph') + logging.chalk.green(':relation'),
-            '  Model Relation Subgenerator',
-            '',
-            '  Coded by ' + logging.chalk.underline('Temoto-kun') + '.',
-            ' ' + logging.bar(78),
-            ''
-        ].join('\n'));
+        require('./../../../common/branding/header')(self)({
+            name: 'relation',
+            desc: 'Model Relation Subgenerator',
+            color: 'green'
+        });
     };
 })();

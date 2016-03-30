@@ -1,4 +1,4 @@
 (function () {
-    module.exports = function writeClientRoutes(self) {
+    module.exports = function writeClientRoutes(self, scope) {
     };
 })();
