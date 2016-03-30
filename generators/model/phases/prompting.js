@@ -1,8 +1,5 @@
 (function () {
-    var chalk, done, modelOrder, prompts;
-
-    chalk = require('chalk');
-
+    var done, modelOrder, prompts;
     modelOrder = 0;
 
     /**
@@ -47,14 +44,16 @@
     /**
      * Prompts for a model attribute.
      * @param {Object} self The generator context.
+     * @param {Object} scope The scope object.
      * @param {Object} attrs Array for storing attributes.
      * @param {Function} cb Callback function.
      * @returns {undefined}
      */
-    function promptModelAttr(self, attrs, cb) {
-        var appAnswers;
+    function promptModelAttr(self, scope, attrs, cb) {
+        var appAnswers, chalk, prompts;
 
         appAnswers = self.config.get('answers'); // TODO depending on database, supply missing column types
+        chalk = scope.global.logging.chalk;
 
         ++modelOrder;
 
@@ -71,7 +70,7 @@
             cb = function () {}
         }
 
-        self.prompt([
+        prompts = [
             {
                 name: 'attr-name',
                 message: "Type in the name of your model's attribute " + chalk.cyan('#' + modelOrder) + ". " + chalk.red('(Required)'),
@@ -87,8 +86,6 @@
                     if (hasDupe) {
                         return 'An attribute with the same name has already been specified.';
                     }
-
-                    return (input.trim().length > 0 || 'Please enter a valid attribute name.');
                 }
             },
             {
@@ -215,8 +212,8 @@
                 required: true,
                 when: function (answers) {
                     return (answers['attr-type-base'] === 'string' &&
-                        (answers['attr-type'] === 'VARCHAR' ||
-                        answers['attr-type'] === 'CHARACTER')
+                    (answers['attr-type'] === 'VARCHAR' ||
+                    answers['attr-type'] === 'CHARACTER')
                     );
                 },
                 validate: function (input) {
@@ -270,14 +267,16 @@
                 type: 'confirm',
                 required: true
             }
-        ], function (answers) {
+        ];
+
+        self.prompt(prompts, function (answers) {
             attrs.push(makeAttr(answers));
 
             if (!answers.continue) {
                 return cb(attrs);
             }
 
-            promptModelAttr(self, attrs, cb);
+            promptModelAttr(self, scope, attrs, cb);
         });
     }
 
@@ -299,13 +298,13 @@
         }, false);
     }
 
-    module.exports = function prompting(self) {
+    module.exports = function prompting(self, scope) {
         var modelNameDuplicateArg = isModelNameExisting(self, self.arguments[0]);
         done = self.async();
         prompts = [
             {
                 name: 'name',
-                message: 'Type in your model name (please use a singular noun). ' + chalk.red('(Required)'),
+                message: 'Type in your model name (please use a singular noun).',
                 type: 'input',
                 required: true,
                 validate: function (input) {
@@ -318,7 +317,22 @@
                     return (self.arguments.length < 1 || modelNameDuplicateArg);
                 }
             }
-        ].concat(require('./../common/options'));
+        ]
+            .concat(require('./../common/options'))
+            .map(function (prompt) {
+                var validateFn;
+                validateFn = prompt.validate || function () {
+                    return true;
+                };
+                if (prompt.required && prompt.type === 'input') {
+                    prompt.message += ' ' + scope.global.logging.chalk.red('(Required)');
+                    prompt.validate = function (input) {
+                        return (input.trim().length <= 0 ?
+                            'This field is required.' : validateFn(input)
+                        );
+                    }
+                }
+            });
         if (modelNameDuplicateArg) {
             self.log('There is already a model of the same name.');
         }
@@ -327,7 +341,7 @@
                 answers.name = self.arguments.shift();
             }
 
-            promptModelAttr(self, function (attrs) {
+            promptModelAttr(self, scope, function (attrs) {
                 var models;
 
                 answers.attrs = attrs;

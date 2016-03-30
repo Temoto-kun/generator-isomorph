@@ -1,17 +1,15 @@
 (function () {
-    var logging;
-
-    logging = require('./../../../common/logging');
-
-    module.exports = function (self) {
-        var models;
+    module.exports = function (self, scope) {
+        var chalk, models;
 
         models = self.config.get('models');
+
+        chalk = scope.global.logging.chalk;
 
         self.prompt([
             {
                 name: 'strong',
-                message: 'Select the ' + logging.chalk.cyan('referencing') + ' model.',
+                message: 'Select the ' + chalk.cyan('referencing') + ' model.',
                 type: 'list',
                 required: true,
                 choices: models.map(function (model) {
@@ -24,7 +22,7 @@
         ], function (answers) {
             self.prompt({
                 name: 'weak',
-                message: 'Select the model being ' + logging.chalk.cyan('referenced') + '.',
+                message: 'Select the model being ' + chalk.cyan('referenced') + '.',
                 type: 'list',
                 required: true,
                 choices: models

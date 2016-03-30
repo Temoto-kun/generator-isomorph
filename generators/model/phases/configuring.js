@@ -6,7 +6,7 @@
 
     module.exports = function configuring(self, scope) {
         Object.keys(subtasks).forEach(function (subtaskName) {
-            subtasks[subtaskName](self);
+            subtasks[subtaskName](self, scope);
         });
     };
 })();

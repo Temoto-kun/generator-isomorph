@@ -186,7 +186,7 @@
         });
     }
 
-    module.exports = function configureDatabase(self) {
+    module.exports = function configureDatabase(self, scope) {
         var answers, currentDb, currentModel, models, schema;
 
         answers = self.config.get('answers');

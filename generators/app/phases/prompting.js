@@ -53,7 +53,7 @@
                     return true;
                 };
                 if (prompt.required && prompt.type === 'input') {
-                    prompt.message += ' ' + scope.global.chalk.red('(Required)');
+                    prompt.message += ' ' + scope.global.logging.chalk.red('(Required)');
                     prompt.validate = function (input) {
                         return (input.trim().length <= 0 ?
                             'This field is required.' : validateFn(input)
