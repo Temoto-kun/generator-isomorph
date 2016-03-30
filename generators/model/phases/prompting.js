@@ -73,19 +73,21 @@
         prompts = [
             {
                 name: 'attr-name',
-                message: "Type in the name of your model's attribute " + chalk.cyan('#' + modelOrder) + ". " + chalk.red('(Required)'),
+                message: "Type in the name of your model's attribute " + chalk.cyan('#' + modelOrder) + '.',
                 type: 'input',
                 required: true,
                 validate: function (input) {
                     var hasDupe;
 
                     hasDupe = attrs.reduce(function (curr, next) {
+                        if (!input) {
+                            input = '';
+                        }
+
                         return curr || next.name.trim().toLowerCase() === input.trim().toLowerCase();
                     }, false);
 
-                    if (hasDupe) {
-                        return 'An attribute with the same name has already been specified.';
-                    }
+                    return (hasDupe ? 'An attribute with the same name has already been specified.' : true);
                 }
             },
             {
@@ -267,7 +269,8 @@
                 type: 'confirm',
                 required: true
             }
-        ];
+        ]
+            .map(scope.global.validation.required);
 
         self.prompt(prompts, function (answers) {
             attrs.push(makeAttr(answers));
@@ -311,31 +314,19 @@
                     if (isModelNameExisting(self, input.name)) {
                         return 'There is already a model of the same name.';
                     }
-                    return (input.trim().length > 0 || 'Please enter your model name.');
                 },
                 when: function () {
                     return (self.arguments.length < 1 || modelNameDuplicateArg);
                 }
             }
         ]
-            .concat(require('./../common/options'))
-            .map(function (prompt) {
-                var validateFn;
-                validateFn = prompt.validate || function () {
-                    return true;
-                };
-                if (prompt.required && prompt.type === 'input') {
-                    prompt.message += ' ' + scope.global.logging.chalk.red('(Required)');
-                    prompt.validate = function (input) {
-                        return (input.trim().length <= 0 ?
-                            'This field is required.' : validateFn(input)
-                        );
-                    }
-                }
-            });
+            .concat(scope.local.options)
+            .map(scope.global.validation.required);
+
         if (modelNameDuplicateArg) {
             self.log('There is already a model of the same name.');
         }
+
         self.prompt(prompts, function (answers) {
             if (self.arguments.length > 0) {
                 answers.name = self.arguments.shift();

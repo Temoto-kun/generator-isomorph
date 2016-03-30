@@ -33,26 +33,25 @@
                 });
             },
             initializing: function () {
-                this.log('Initializing...');
-
+                this.log(' [Initializing...]');
                 require(path.resolve(meta.dir, './phases/initializing'))(this, scope);
             },
             prompting: function () {
                 require(path.resolve(meta.dir, './phases/prompting'))(this, scope);
             },
             configuring: function () {
-                this.log('Configuring...');
+                this.log(' [Configuring...]');
                 require(path.resolve(meta.dir, './phases/configuring'))(this, scope);
             },
             writing: function () {
-                this.log('Writing files...');
+                this.log(' [Writing files...]');
                 require(path.resolve(meta.dir, './phases/writing'))(this, scope);
             },
             conflicts: function () {
                 require(path.resolve(meta.dir, './phases/conflicts'))(this, scope);
             },
             install: function () {
-                this.log('Installing packages...');
+                this.log(' [Installing packages...]');
                 require(path.resolve(meta.dir, './phases/install'))(this, scope);
             },
             end: function () {

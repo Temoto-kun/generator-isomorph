@@ -8,12 +8,8 @@
                 ' ' + logging.bar(78),
                 '  Finished execution! Goodbye!',
                 '',
-                '  ' + logging.chalk.blue('isomorph') + logging.chalk[details.color](':' + details.name),
-                '  ' + details.desc,
-                '',
-                '  Coded by ' + logging.chalk.underline(details.author) + '.',
-                ' ' + logging.bar(78),
-                ''
+                '  ' + logging.chalk.white('isomorph') + logging.chalk[details.color](':' + details.name),
+                ' ' + logging.bar(78)
             ].join('\n'));
         };
     };

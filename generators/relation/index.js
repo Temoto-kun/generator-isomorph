@@ -6,3 +6,5 @@
     });
 })();
 
+// TODO add configuring code (for each database system)
+// TODO add writing code for client/server routes and requests

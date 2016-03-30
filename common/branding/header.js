@@ -6,10 +6,10 @@
             self.log([
                 '',
                 ' ' + logging.bar(78),
-                '  ' + logging.chalk.blue('isomorph') + logging.chalk[details.color](':' + details.name),
+                '  ' + logging.chalk.white('isomorph') + logging.chalk[details.color](':' + details.name),
                 '  ' + details.desc,
                 '',
-                '  Coded by ' + logging.chalk.underline(details.author) + '.',
+                '  Coded by ' + logging.chalk.white(details.author) + '.',
                 ' ' + logging.bar(78),
                 ''
             ].join('\n'));

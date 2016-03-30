@@ -46,21 +46,8 @@
                     required: true
                 }
             ])
-            .concat(require('./../common/options'))
-            .map(function (prompt) {
-                var validateFn;
-                validateFn = prompt.validate || function () {
-                    return true;
-                };
-                if (prompt.required && prompt.type === 'input') {
-                    prompt.message += ' ' + scope.global.logging.chalk.red('(Required)');
-                    prompt.validate = function (input) {
-                        return (input.trim().length <= 0 ?
-                            'This field is required.' : validateFn(input)
-                        );
-                    }
-                }
-            });
+            .concat(scope.local.options)
+            .map(scope.global.validation.required);
     }
 
     module.exports = function prompting(self) {
