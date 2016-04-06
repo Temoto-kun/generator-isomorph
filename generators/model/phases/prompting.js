@@ -31,6 +31,7 @@
                 }
                 attr.type = answers['attr-type'];
                 break;
+            case 'file':
             case 'binary':
                 attr.type = 'BLOB';
                 break;
@@ -106,7 +107,7 @@
                     },
                     {
                         name: 'real (float)',
-                        value: 'float'
+                        value: 'real'
                     },
                     {
                         name: 'string',
@@ -117,10 +118,29 @@
                         value: 'datetime'
                     },
                     {
-                        name: 'binary',
-                        value: 'binary'
+                        name: 'file',
+                        value: 'file'
                     }
                 ]
+            },
+            {
+                name: 'attr-type',
+                message: 'How would you like to store this ' + chalk.cyan('file') + '?',
+                type: 'list',
+                required: true,
+                choices: [
+                    {
+                        name: 'by its path',
+                        value: 'VARCHAR'
+                    },
+                    {
+                        name: 'by its raw binary contents',
+                        value: 'BLOB'
+                    }
+                ],
+                when: function (answers) {
+                    return (answers['attr-type-base'] === 'file');
+                }
             },
             {
                 name: 'attr-type',
@@ -150,12 +170,12 @@
                     }
                 ],
                 when: function (answers) {
-                    return answers['attr-type-base'] === 'integer';
+                    return (answers['attr-type-base'] === 'integer');
                 }
             },
             {
                 name: 'attr-type',
-                message: 'What type of ' + chalk.cyan('float') + ' is this?',
+                message: 'What type of ' + chalk.cyan('real') + ' is this?',
                 type: 'list',
                 required: true,
                 choices: [
@@ -173,23 +193,69 @@
                     }
                 ],
                 when: function (answers) {
-                    return answers['attr-type-base'] === 'float';
+                    return (answers['attr-type-base'] === 'real');
                 }
             },
             {
-                name: 'attr-type',
-                message: 'What type of ' + chalk.cyan('string') + ' is this?',
+                name: 'attr-string-type',
+                message: 'How do you intend for this ' + chalk.cyan('string') + ' to be inputted?',
                 type: 'list',
                 required: true,
                 choices: [
                     {
-                        name: 'CHARACTER',
-                        value: 'CHARACTER'
+                        name: 'In an <input>',
+                        value: 'sentence',
                     },
+                    {
+                        name: 'In a <textarea>',
+                        value: 'paragraph'
+                    }
+                ],
+                when: function (answers) {
+                    return (answers['attr-type-base'] === 'string');
+                }
+            },
+            {
+                name: 'attr-password-string',
+                message: 'Is this ' + chalk.cyan('string') + ' a password?',
+                type: 'confirm',
+                required: true,
+                'default': function (answers) {
+                    return (answers['attr-name'].trim().toLowerCase().search(/\bpassword\b/gi) > -1);
+                },
+                when: function (answers) {
+                    return (answers['attr-type-base'] === 'string' &&
+                        answers['attr-string-type'] === 'sentence'
+                    );
+                }
+            },
+            {
+                name: 'attr-type',
+                message: 'Select the type for this ' + chalk.cyan('string') + '.',
+                type: 'list',
+                required: true,
+                choices: [
+                    // {
+                    //     name: 'CHARACTER',
+                    //     value: 'CHARACTER'
+                    // },
                     {
                         name: 'VARCHAR',
                         value: 'VARCHAR'
-                    },
+                    }
+                ],
+                when: function (answers) {
+                    return (answers['attr-type-base'] === 'string' &&
+                        answers['attr-string-type'] === 'sentence'
+                    );
+                }
+            },
+            {
+                name: 'attr-type',
+                message: 'Select the type for this ' + chalk.cyan('string') + '.',
+                type: 'list',
+                required: true,
+                choices: [
                     {
                         name: 'TEXT',
                         value: 'TEXT'
@@ -204,7 +270,9 @@
                     }
                 ],
                 when: function (answers) {
-                    return answers['attr-type-base'] === 'string';
+                    return (answers['attr-type-base'] === 'string' &&
+                        answers['attr-string-type'] === 'paragraph'
+                    );
                 }
             },
             {
@@ -214,8 +282,9 @@
                 required: true,
                 when: function (answers) {
                     return (answers['attr-type-base'] === 'string' &&
-                    (answers['attr-type'] === 'VARCHAR' ||
-                    answers['attr-type'] === 'CHARACTER')
+                        answers['attr-string-type'] === 'sentence' &&
+                        (answers['attr-type'] === 'VARCHAR' ||
+                        answers['attr-type'] === 'CHARACTER')
                     );
                 },
                 validate: function (input) {
@@ -254,7 +323,7 @@
                     }
                 ],
                 when: function (answers) {
-                    return answers['attr-type-base'] === 'datetime';
+                    return (answers['attr-type-base'] === 'datetime');
                 }
             },
             {
@@ -262,6 +331,19 @@
                 message: 'Is this attribute nullable?',
                 type: 'confirm',
                 required: true
+            },
+            {
+                name: 'attr-visible',
+                message: 'Is this attribute visible from the REST API responses?',
+                type: 'confirm',
+                required: true,
+                'default': true,
+                when: function (answers) {
+                    return (answers['attr-type-base'] === 'string' &&
+                        answers['attr-string-type'] === 'sentence' &&
+                        answers['attr-password-string']
+                    );
+                }
             },
             {
                 name: 'continue',
