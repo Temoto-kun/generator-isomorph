@@ -30,7 +30,7 @@
                 required: true
             });
         }
-
+        
         return prompts
             .concat([
                 {
@@ -50,12 +50,12 @@
             .map(scope.global.validation.required);
     }
 
-    module.exports = function prompting(self) {
+    module.exports = function prompting(self, scope) {
         var done;
 
         done = self.async();
 
-        self.prompt(getPrompts(self), function (answers) {
+        self.prompt(getPrompts(self, scope), function (answers) {
             if (self.arguments.length > 0) {
                 answers.name = self.arguments.shift();
             }
