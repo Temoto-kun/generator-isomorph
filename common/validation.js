@@ -1,14 +1,14 @@
 (function () {
-    var logging;
-    logging = require('./logging');
+    var Logging;
+    Logging = require('./Logging');
     module.exports = {
-        required: function (prompt) {
+        Required: function (prompt) {
             var validateFn;
             validateFn = prompt.validate || function () {
                 return true;
             };
             if (prompt.required && prompt.type === 'input') {
-                prompt.message += ' ' + logging.chalk.red('(Required)');
+                prompt.message += ' ' + Logging.Chalk.red('(Required)');
 
                 prompt.validate = function requiredValidate(input) {
                     var result;

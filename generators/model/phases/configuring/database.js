@@ -86,8 +86,15 @@
                                 break;
                         }
                         break;
-                    case 'binary':
-                        column = table.binary(attr.name);
+                    case 'file':
+                        switch (attr.type) {
+                            case 'VARCHAR':
+                                column = table.text(attr.name, 255);
+                                break;
+                            case 'BLOB':
+                                column = table.binary(attr.name);
+                                break;
+                        }
                         break;
                 }
                 if (!attr.nullable) {

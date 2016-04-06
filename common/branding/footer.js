@@ -1,15 +1,15 @@
 (function () {
-    var logging;
-    logging = require('./../logging');
+    var Logging;
+    Logging = require('./../Logging');
     module.exports = function (self) {
         return function (details) {
             self.log([
                 '',
-                ' ' + logging.bar(78),
+                ' ' + Logging.Bar(78),
                 '  Finished execution! Goodbye!',
                 '',
-                '  ' + logging.chalk.white('isomorph') + logging.chalk[details.color](':' + details.name),
-                ' ' + logging.bar(78)
+                '  ' + Logging.Chalk.white('isomorph') + Logging.Chalk[details.color](':' + details.name),
+                ' ' + Logging.Bar(78)
             ].join('\n'));
         };
     };

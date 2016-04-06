@@ -16,7 +16,7 @@
         var fns, requireDir, url;
         requireDir = require('require-dir');
         fns = requireDir(path.join(self.sourceRoot(), 'route/server/fns'));
-        url = scope.global.naming.urlPlural(model.name);
+        url = scope.global.Naming.UrlPlural(model.name);
 
         return [
             '\n\n' + "router.get('" + url + "', " + fns.getMany(scope, model, answers) + ");",

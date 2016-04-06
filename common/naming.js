@@ -5,19 +5,19 @@
     slug = require('slug');
 
     module.exports = {
-        tableName: function (name) {
+        Table: function (name) {
             return slug(pluralize(name.replace(/\s+/g, ' '), '_'));
         },
-        url: function (name) {
+        Url: function (name) {
             return slug(name.replace(/\s+/g, ' '));
         },
-        urlPlural: function (name) {
+        UrlPlural: function (name) {
             return slug(pluralize(name.replace(/\s+/g, ' ')));
         },
-        packageName: function (name) {
+        PackageName: function (name) {
             return slug(name.replace(/\s+/g, ' '));
         },
-        packageTitle: function (name) {
+        PackageTitle: function (name) {
             return name.replace(/\s+/g, ' ');
         }
     };

@@ -1,15 +1,17 @@
 (function () {
     module.exports = function getManyFn(scope, model, answers) {
-        var GET_MANY, stmt;
-
+        var G, GET_MANY, attrsStmt, modelInst, stmt, tableName;
+        G = scope.global;
+        modelInst = new G.Model(model);
+        attrsStmt = G.Querying.Columns(modelInst.getVisibleAttrs());
+        tableName = G.Querying.Tables(modelInst);
         stmt = [];
-
+        
         switch (answers.db.id) {
             case 'sqlite':
-
                 stmt = stmt.concat([
-                    "knex.select()",
-                        ".table('" + scope.global.naming.tableName(model.name) + "')"
+                    "db.select(" + attrsStmt + ")",
+                        ".from(" + tableName + ")"
                 ]);
 
                 if (model.pagination) {
@@ -17,7 +19,7 @@
                         'var itemsPerPage, page;',
                         'itemsPerPage = req.params.itemsPerPage || 10;',
                         'page = req.params.page || 1;',
-                        "db.table('" + scope.global.naming.tableName(model.name) + "')",
+                        "db.table(" + tableName + ")",
                             ".select(db.raw('count(*) as totalItems, (count(*) / ?) as totalPages', itemsPerPage))",
                             '.then(function (counts) {'
                     ].concat(stmt);

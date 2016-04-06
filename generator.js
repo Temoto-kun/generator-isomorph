@@ -9,7 +9,7 @@
     };
 
     module.exports = function (meta) {
-        scope.local = requireDir(path.resolve(meta.dir, './common'));
+        scope.local = requireDir(path.resolve(meta.dir, './common'), { recurse: true });
         Object.keys(meta).forEach(function (key) {
             scope.local[key] = scope.local[key] || meta[key];
         });
@@ -18,7 +18,8 @@
                 var self;
                 self = this;
                 Generators.Base.apply(self, arguments);
-                scope.local.options.forEach(function (prompt) {
+                
+                scope.local.prompts['default'].forEach(function (prompt) {
                     self.option(prompt.name, {
                         desc: prompt.desc,
                         required: false

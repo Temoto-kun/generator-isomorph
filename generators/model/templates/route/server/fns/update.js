@@ -1,14 +1,15 @@
 (function () {
     module.exports = function updateFn(scope, model, answers) {
-        var UPDATE, stmt;
-
+        var G, UPDATE, modelInst, stmt, tableName;
+        G = scope.global;
+        modelInst = new G.Model(model);
+        tableName = G.Querying.Tables(modelInst);
         stmt = [];
 
         switch (answers.db.id) {
             case 'sqlite':
-
                 stmt = stmt.concat([
-                    "db('" + scope.global.naming.tableName(model.name) + "')",
+                    "db(" + tableName + ")",
                         ".where('id', req.params.id)",
                         ".update(req.body)",
                         '.then(function (result) {',

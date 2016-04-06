@@ -1,14 +1,15 @@
 (function () {
     module.exports = function deleteFn(scope, model, answers) {
-        var DELETE, stmt;
-
+        var DELETE, G, modelInst, stmt, tableName;
+        G = scope.global;
+        modelInst = new G.Model(model);
+        tableName = G.Querying.Tables(modelInst);
         stmt = [];
 
         switch (answers.db.id) {
             case 'sqlite':
-
                 stmt = stmt.concat([
-                    "db('" + scope.global.naming.tableName(model.name) + "')",
+                    "db(" + tableName + ")",
                         ".where('id', req.params.id)",
                         ".del()",
                         '.then(function (result) {',

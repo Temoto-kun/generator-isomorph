@@ -10,7 +10,7 @@
          * @param {Number} n  an integer value.
          * @returns {string} The string of dash characters.
          */
-        bar: function bar(n) {
+        Bar: function bar(n) {
             var bar, i;
 
             bar = '';
@@ -25,6 +25,6 @@
 
             return bar;
         },
-        chalk: chalk
+        Chalk: chalk
     };
 })();

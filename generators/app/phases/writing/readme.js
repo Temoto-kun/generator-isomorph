@@ -9,10 +9,10 @@
         self.fs.write(
             self.destinationPath('README.txt'),
             [
-                scope.global.logging.bar(79),
+                scope.global.Logging.Bar(79),
                 answers.name,
                 answers.description,
-                scope.global.logging.bar(79),
+                scope.global.Logging.Bar(79),
                 '',
                 'Contributors',
                 '------------',

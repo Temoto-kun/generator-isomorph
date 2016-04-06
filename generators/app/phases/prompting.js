@@ -32,22 +32,9 @@
         }
         
         return prompts
-            .concat([
-                {
-                    name: 'author',
-                    message: 'Type in your name.',
-                    type: 'input',
-                    required: true
-                },
-                {
-                    name: 'email',
-                    message: 'Type in your email.',
-                    type: 'input',
-                    required: true
-                }
-            ])
-            .concat(scope.local.options)
-            .map(scope.global.validation.required);
+            .concat(scope.local.prompts['profile'])
+            .concat(scope.local.prompts['default'])
+            .map(scope.global.Validation.Required);
     }
 
     module.exports = function prompting(self, scope) {

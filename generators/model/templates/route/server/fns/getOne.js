@@ -1,14 +1,17 @@
 (function () {
     module.exports = function getOneFn(scope, model, answers) {
-        var GET_ONE, stmt;
-
+        var G, GET_ONE, attrsStmt, modelInst, stmt, tableName;
+        G = scope.global;
+        modelInst = new G.Model(model);
+        attrsStmt = G.Querying.Columns(modelInst.getVisibleAttrs());
+        tableName = G.Querying.Tables(modelInst);
         stmt = [];
 
         switch (answers.db.id) {
             case 'sqlite':
-
                 stmt = stmt.concat([
-                    "db('" + scope.global.naming.tableName(model.name) + "')",
+                    "db.select(" + attrsStmt + ")",
+                        ".from(" + tableName + ")",
                         ".where('id', req.params.id)",
                         '.then(function (result) {',
                             'db.destroy();',

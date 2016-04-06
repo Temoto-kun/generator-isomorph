@@ -4,9 +4,9 @@
     module.exports = function (self, scope) {
         var chalk, models, prompts;
         models = self.config.get('models');
-        chalk = scope.global.logging.chalk;
+        chalk = scope.global.Logging.Chalk;
         done = self.async();
-        prompts = scope.local.options
+        prompts = scope.local.prompts['default']
             .concat([
                 {
                     name: 'strong',
