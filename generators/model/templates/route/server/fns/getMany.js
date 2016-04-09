@@ -1,8 +1,7 @@
 (function () {
-    module.exports = function getManyFn(scope, model, answers) {
-        var G, GET_MANY, attrsStmt, modelInst, stmt, tableName;
+    module.exports = function getManyFn(scope, modelInst, answers) {
+        var G, GET_MANY, attrsStmt, stmt, tableName;
         G = scope.global;
-        modelInst = new G.Model(model);
         attrsStmt = G.Querying.Columns(modelInst.getVisibleAttrs());
         tableName = G.Querying.Tables(modelInst);
         stmt = [];
@@ -14,7 +13,7 @@
                         ".from(" + tableName + ")"
                 ]);
 
-                if (model.pagination) {
+                if (modelInst.isPaginated()) {
                     stmt = [
                         'var itemsPerPage, page;',
                         'itemsPerPage = req.params.itemsPerPage || 10;',

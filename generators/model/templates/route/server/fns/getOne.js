@@ -1,8 +1,7 @@
 (function () {
-    module.exports = function getOneFn(scope, model, answers) {
-        var G, GET_ONE, attrsStmt, modelInst, stmt, tableName;
+    module.exports = function getOneFn(scope, modelInst, answers) {
+        var G, GET_ONE, attrsStmt, stmt, tableName;
         G = scope.global;
-        modelInst = new G.Model(model);
         attrsStmt = G.Querying.Columns(modelInst.getVisibleAttrs());
         tableName = G.Querying.Tables(modelInst);
         stmt = [];

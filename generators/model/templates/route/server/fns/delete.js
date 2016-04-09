@@ -1,8 +1,7 @@
 (function () {
-    module.exports = function deleteFn(scope, model, answers) {
-        var DELETE, G, modelInst, stmt, tableName;
+    module.exports = function deleteFn(scope, modelInst, answers) {
+        var DELETE, G, stmt, tableName;
         G = scope.global;
-        modelInst = new G.Model(model);
         tableName = G.Querying.Tables(modelInst);
         stmt = [];
 

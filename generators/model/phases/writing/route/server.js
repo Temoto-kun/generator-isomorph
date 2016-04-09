@@ -9,14 +9,17 @@
      * @param {Object} self The generator context.
      * @param {Object} scope The scope object.
      * @param {Object} answers The answers hash.
-     * @param {Object} model The model.
+     * @param {Object} modelRaw The raw instance of the model.
      * @returns {string} The JavaScript code for the model.
      */
-    function generateModelCode(self, scope, answers, model) {
-        var fns, requireDir, url;
+    function generateModelCode(self, scope, answers, modelRaw) {
+        var G, fns, model, requireDir, url;
+        G = scope.global;
         requireDir = require('require-dir');
         fns = requireDir(path.join(self.sourceRoot(), 'route/server/fns'));
-        url = scope.global.Naming.UrlPlural(model.name);
+        
+        model = new G.Model(modelRaw);
+        url = G.Naming.UrlPlural(model.getName());
 
         return [
             '\n\n' + "router.get('" + url + "', " + fns.getMany(scope, model, answers) + ");",

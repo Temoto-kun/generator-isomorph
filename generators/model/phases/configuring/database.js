@@ -97,7 +97,7 @@
                         }
                         break;
                 }
-                if (!attr.nullable) {
+                if (attr.characteristics.indexOf('nullable') < 0) {
                     column = column.notNullable();
                 }
             });

@@ -1,8 +1,7 @@
 (function () {
-    module.exports = function postFn(scope, model, answers) {
-        var G, POST, modelInst, stmt, tableName;
+    module.exports = function postFn(scope, modelInst, answers) {
+        var G, POST, stmt, tableName;
         G = scope.global;
-        modelInst = new G.Model(model);
         tableName = G.Querying.Tables(modelInst);
         stmt = [];
 

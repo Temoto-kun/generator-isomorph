@@ -1,6 +1,19 @@
 (function () {
     var done, modelOrder, prompts;
     modelOrder = 0;
+    
+    function makeCharacteristics(rawCharacteristics) {
+        var allCharacteristics, characteristics;
+        
+        allCharacteristics = ['nullable', 'hidden'];
+        characteristics = {};
+        
+        allCharacteristics.forEach(function (c) {
+            characteristics[c] = rawCharacteristics.indexOf(c) > -1;
+        });
+        
+        return characteristics;
+    }
 
     /**
      * Makes an attribute from an answers hash.
@@ -12,7 +25,7 @@
 
         attr = {
             name: answers['attr-name'].trim(),
-            nullable: answers['attr-nullable'],
+            characteristics: answers['attr-characteristics'],
             typeBase: answers['attr-type-base']
         };
 
@@ -38,6 +51,12 @@
             default:
                 throw new Error('Unrecognized data type');
         }
+        
+        if (answers['attr-password-string'] && attr.characteristics.indexOf('hidden') < 0) {
+            attr.characteristics.push('hidden');
+        }
+        
+        attr.characteristics = makeCharacteristics(attr.characteristics);
 
         return attr;
     }
@@ -127,12 +146,6 @@
             promptModelAttr(self, scope, function (attrs) {
                 var models;
                 
-                attrs = attrs.map(function (attr) {
-                    if (attr['attr-password-string']) {
-                        attr['attr-visible'] = false;
-                    }
-                });
-
                 answers.attrs = attrs;
                 models = self.config.get('models') || [];
                 models.push(answers);
