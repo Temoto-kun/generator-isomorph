@@ -8,9 +8,10 @@
      *
      * @param {Object} model The model to store in database.
      * @param {String} currentDb The path to the current database file.
+     * @param {Function} cb The callback function.
      * @returns {undefined}
      */
-    function configureSqlite(model, currentDb) {
+    function configureSqlite(model, currentDb, cb) {
         var db, knex, modelName;
 
         knex = require('knex');
@@ -97,13 +98,14 @@
                         }
                         break;
                 }
-                if (attr.characteristics.indexOf('nullable') < 0) {
+                if (attr.characteristics.nullable) {
                     column = column.notNullable();
                 }
             });
         })
             .then(function () {
                 db.destroy();
+                return cb(null);
             });
     }
 
@@ -113,9 +115,10 @@
      * @param {String} schema The schema of the database.
      * @param {Object} model The model to store in database.
      * @param {String} currentDb The path to the current database file.
+     * @param {Function} cb The callback function.
      * @returns {undefined}
      */
-    function configureMySql(schema, model, currentDb) {
+    function configureMySql(schema, model, currentDb, cb) {
         var db, knex, modelName;
 
         knex = require('knex');
@@ -190,24 +193,29 @@
                         break;
                 }
             });
-        });
+        })
+            .then(function () {
+                db.destroy();
+                return cb(null);
+            });
     }
 
     module.exports = function configureDatabase(self, scope) {
-        var answers, currentDb, currentModel, models, schema;
+        var answers, currentDb, currentModel, done, models, schema;
 
         answers = self.config.get('answers');
         currentDb = self.config.get('currentDb');
         models = self.config.get('models');
         currentModel = models.slice(-1)[0];
         schema = self.appname.replace(/\s+/g, '_');
+        done = self.async();
         self.log('   configure ' + currentDb);
         switch (answers.db.id) {
             case 'sqlite':
-                configureSqlite(currentModel, currentDb);
+                configureSqlite(currentModel, currentDb, done);
                 break;
             case 'mysql':
-                configureMySql(schema, currentModel, currentDb);
+                configureMySql(schema, currentModel, currentDb, done);
                 break;
         }
     };
